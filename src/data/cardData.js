@@ -211,7 +211,7 @@ export const actionCards = {
 };
 
 export const moneyCards = [
-  { id: 1, type: "1m", value: 1, count: 10 },
+  { id: 1, type: "1m", value: 1, color: "beige", count: 10 },
   { id: 2, type: "2m", value: 2, count: 5 },
   { id: 3, type: "3m", value: 3, count: 3 },
   { id: 4, type: "4m", value: 4, count: 3 },
