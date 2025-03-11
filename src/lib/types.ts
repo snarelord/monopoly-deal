@@ -1,9 +1,10 @@
 export interface Card {
   id: string;
-  type: "property" | "money" | "action" | "wildcard";
+  type: "property" | "money" | "action" | "wildcard" | "station" | "utility";
   name: string;
   value: number;
   color?: string;
+  rent?: { [propertiesOwned: number]: number };
   secondaryColor?: string; // two-way wildcards
   actionType?: string;
   image: string;
