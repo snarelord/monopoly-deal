@@ -155,6 +155,7 @@ export const cardData: Card[] = [
     name: "Old Kent Road",
     value: 1,
     color: "brown",
+    rent: { 1: 1, 2: 2 }, // Rent for 1 property, 2 properties
     image: "old-kent-road.png",
   },
   {
@@ -163,6 +164,7 @@ export const cardData: Card[] = [
     name: "Whitechapel Road",
     value: 1,
     color: "brown",
+    rent: { 1: 1, 2: 2 }, // Rent for 1 property, 2 properties
     image: "whitechapel-road.png",
   },
 
@@ -173,6 +175,7 @@ export const cardData: Card[] = [
     name: "Euston Road",
     value: 1,
     color: "light blue",
+    rent: { 1: 1, 2: 2, 3: 3 }, // Rent for 1, 2, 3 properties
     image: "euston-road.png",
   },
   {
@@ -181,6 +184,7 @@ export const cardData: Card[] = [
     name: "Pentonville Road",
     value: 1,
     color: "light blue",
+    rent: { 1: 1, 2: 2, 3: 3 }, // Rent for 1, 2, 3 properties
     image: "pentonville-road.png",
   },
   {
@@ -189,6 +193,7 @@ export const cardData: Card[] = [
     name: "The Angel Islington",
     value: 1,
     color: "light blue",
+    rent: { 1: 1, 2: 2, 3: 3 }, // Rent for 1, 2, 3 properties
     image: "the-angel-islington.png",
   },
 
@@ -199,6 +204,7 @@ export const cardData: Card[] = [
     name: "Pall Mall",
     value: 2,
     color: "pink",
+    rent: { 1: 1, 2: 2, 3: 4 }, // Rent for 1, 2, 3 properties
     image: "pall-mall.png",
   },
   {
@@ -207,6 +213,7 @@ export const cardData: Card[] = [
     name: "Whitehall",
     value: 2,
     color: "pink",
+    rent: { 1: 1, 2: 2, 3: 4 }, // Rent for 1, 2, 3 properties
     image: "whitehall.png",
   },
   {
@@ -215,6 +222,7 @@ export const cardData: Card[] = [
     name: "Northumberland Drive",
     value: 2,
     color: "pink",
+    rent: { 1: 1, 2: 2, 3: 4 }, // Rent for 1, 2, 3 properties
     image: "northumberland-drive.png",
   },
 
@@ -225,6 +233,7 @@ export const cardData: Card[] = [
     name: "Vine Street",
     value: 2,
     color: "orange",
+    rent: { 1: 1, 2: 3, 3: 5 }, // Rent for 1, 2, 3 properties
     image: "vine-street.png",
   },
   {
@@ -233,6 +242,7 @@ export const cardData: Card[] = [
     name: "Bow Street",
     value: 2,
     color: "orange",
+    rent: { 1: 1, 2: 3, 3: 5 }, // Rent for 1, 2, 3 properties
     image: "bow-street.png",
   },
   {
@@ -241,6 +251,7 @@ export const cardData: Card[] = [
     name: "Marlborough Street",
     value: 2,
     color: "orange",
+    rent: { 1: 1, 2: 3, 3: 5 }, // Rent for 1, 2, 3 properties
     image: "marlborough-street.png",
   },
 
@@ -251,6 +262,7 @@ export const cardData: Card[] = [
     name: "Strand",
     value: 3,
     color: "red",
+    rent: { 1: 2, 2: 3, 3: 6 }, // Rent for 1, 2, 3 properties
     image: "strand.png",
   },
   {
@@ -259,6 +271,7 @@ export const cardData: Card[] = [
     name: "Fleet Street",
     value: 3,
     color: "red",
+    rent: { 1: 2, 2: 3, 3: 6 }, // Rent for 1, 2, 3 properties
     image: "fleet-street.png",
   },
   {
@@ -267,6 +280,7 @@ export const cardData: Card[] = [
     name: "Trafalgar Square",
     value: 3,
     color: "red",
+    rent: { 1: 2, 2: 3, 3: 6 }, // Rent for 1, 2, 3 properties
     image: "trafalgar-square.png",
   },
 
@@ -277,6 +291,7 @@ export const cardData: Card[] = [
     name: "Piccadilly",
     value: 3,
     color: "yellow",
+    rent: { 1: 2, 2: 4, 3: 6 }, // Rent for 1, 2, 3 properties
     image: "piccadilly.png",
   },
   {
@@ -285,6 +300,7 @@ export const cardData: Card[] = [
     name: "Leicester Square",
     value: 3,
     color: "yellow",
+    rent: { 1: 2, 2: 4, 3: 6 }, // Rent for 1, 2, 3 properties
     image: "leicester-square.png",
   },
   {
@@ -293,6 +309,7 @@ export const cardData: Card[] = [
     name: "Coventry Street",
     value: 3,
     color: "yellow",
+    rent: { 1: 2, 2: 4, 3: 6 }, // Rent for 1, 2, 3 properties
     image: "coventry-street.png",
   },
 
@@ -303,6 +320,7 @@ export const cardData: Card[] = [
     name: "Bond Street",
     value: 4,
     color: "green",
+    rent: { 1: 2, 2: 4, 3: 7 }, // Rent for 1, 2, 3 properties
     image: "bond-street.png",
   },
   {
@@ -311,6 +329,7 @@ export const cardData: Card[] = [
     name: "Oxford Street",
     value: 4,
     color: "green",
+    rent: { 1: 2, 2: 4, 3: 7 }, // Rent for 1, 2, 3 properties
     image: "oxford-street.png",
   },
   {
@@ -319,6 +338,7 @@ export const cardData: Card[] = [
     name: "Regent Street",
     value: 4,
     color: "green",
+    rent: { 1: 2, 2: 4, 3: 7 }, // Rent for 1, 2, 3 properties
     image: "regent-street.png",
   },
 
@@ -329,6 +349,7 @@ export const cardData: Card[] = [
     name: "Park Lane",
     value: 4,
     color: "dark blue",
+    rent: { 1: 3, 2: 8 }, // Rent for 1, 2 properties
     image: "park-lane.png",
   },
   {
@@ -337,7 +358,64 @@ export const cardData: Card[] = [
     name: "Mayfair",
     value: 4,
     color: "dark blue",
+    rent: { 1: 3, 2: 8 }, // Rent for 1, 2 properties
     image: "mayfair.png",
+  },
+
+  // Property cards - Black
+  {
+    id: "station-kings-cross-station",
+    type: "station",
+    name: "King's Cross Station",
+    value: 2,
+    color: "black",
+    rent: { 1: 1, 2: 2, 3: 3, 4: 4 }, // Rent for 1, 2 properties
+    image: "kings-cross-station.png",
+  },
+  {
+    id: "station-marylebone-station",
+    type: "station",
+    name: "Marylebone Station",
+    value: 2,
+    color: "black",
+    rent: { 1: 1, 2: 2, 3: 3, 4: 4 },
+    image: "marylebone-station.png",
+  },
+  {
+    id: "station-fenchurch-street-station",
+    type: "station",
+    name: "Fenchurch St. Station",
+    value: 2,
+    color: "black",
+    rent: { 1: 1, 2: 2, 3: 3, 4: 4 },
+    image: "fenchurch-st-station.png",
+  },
+  {
+    id: "station-liverpool-street-station",
+    type: "station",
+    name: "Liverpool St. Station",
+    value: 2,
+    color: "black",
+    rent: { 1: 1, 2: 2, 3: 3, 4: 4 },
+    image: "liverpool-st-station.png",
+  },
+  {
+    id: "utilities-electric-company",
+    type: "utility",
+    name: "Electric Company",
+    value: 2,
+    color: "mint",
+    rent: { 1: 1, 2: 2 }, // Rent for 1, 2 properties
+    image: "electric-company.png",
+  },
+  {
+    id: "utilities-water-works",
+    type: "utility",
+    name: "Water Works",
+    value: 2,
+    color: "mint",
+    rent: { 1: 1, 2: 2 }, // Rent for 1, 2 properties
+    image: "water-works.png",
   },
 
   // Wildcards
@@ -650,23 +728,132 @@ export const cardData: Card[] = [
     image: "just-say-no.png",
   },
   {
-    id: "action-rent-1",
+    id: "action-rent-brown-light-blue-1",
     type: "action",
     name: "Rent: Brown/Light Blue",
     value: 1,
     actionType: "rent",
     color: "brown",
     secondaryColor: "light blue",
-    image: "rent-brown-light-blue.png",
+    image: "rent-brown-or-light-blue.png",
   },
   {
-    id: "action-rent-2",
+    id: "action-rent-brown-light-blue-2",
     type: "action",
     name: "Rent: Brown/Light Blue",
     value: 1,
     actionType: "rent",
     color: "brown",
     secondaryColor: "light blue",
-    image: "rent-brown-light-blue.png",
+    image: "rent-brown-or-light-blue.png",
   },
+  {
+    id: "action-rent-pink-orange-1",
+    type: "action",
+    name: "Rent: Pink/Orange",
+    value: 1,
+    actionType: "rent",
+    color: "pink",
+    secondaryColor: "orange",
+    image: "rent-pink-or-orange.png",
+  },
+  {
+    id: "action-rent-pink-orange-2",
+    type: "action",
+    name: "Rent: Pink/Orange",
+    value: 1,
+    actionType: "rent",
+    color: "pink",
+    secondaryColor: "orange",
+    image: "rent-pink-or-orange.png",
+  },
+  {
+    id: "action-rent-red-yellow-1",
+    type: "action",
+    name: "Rent: Red/Yellow",
+    value: 1,
+    actionType: "rent",
+    color: "red",
+    secondaryColor: "yellow",
+    image: "rent-red-or-yellow.png",
+  },
+  {
+    id: "action-rent-red-yellow-2",
+    type: "action",
+    name: "Rent: Red/Yellow",
+    value: 1,
+    actionType: "rent",
+    color: "red",
+    secondaryColor: "yellow",
+    image: "rent-red-or-yellow.png",
+  },
+  {
+    id: "action-rent-dark-blue-green-1",
+    type: "action",
+    name: "Rent: Dark Blue/Green",
+    value: 1,
+    actionType: "rent",
+    color: "dark blue",
+    secondaryColor: "green",
+    image: "rent-dark-blue-or-green.png",
+  },
+  {
+    id: "action-rent-dark-blue-green-2",
+    type: "action",
+    name: "Rent: Dark Blue/Green",
+    value: 1,
+    actionType: "rent",
+    color: "dark blue",
+    secondaryColor: "green",
+    image: "rent-dark-blue-or-green.png",
+  },
+  {
+    id: "action-rent-mint-black-1",
+    type: "action",
+    name: "Rent: Mint/Black",
+    value: 1,
+    actionType: "rent",
+    color: "mint",
+    secondaryColor: "black",
+    image: "rent-mint-or-black.png",
+  },
+  {
+    id: "action-rent-mint-black-2",
+    type: "action",
+    name: "Rent: Mint/Black",
+    value: 1,
+    actionType: "rent",
+    color: "mint",
+    secondaryColor: "black",
+    image: "rent-mint-or-black.png",
+  },
+  {
+    id: "action-any-color-1",
+    type: "action",
+    name: "Rent: Any",
+    value: 3,
+    actionType: "rent",
+    color: "any",
+    image: "rent-any-colour.png",
+  },
+  {
+    id: "action-any-color-2",
+    type: "action",
+    name: "Rent: Any",
+    value: 3,
+    actionType: "rent",
+    color: "any",
+    image: "rent-any-colour.png",
+  },
+  {
+    id: "action-any-color-3",
+    type: "action",
+    name: "Rent: Any",
+    value: 3,
+    actionType: "rent",
+    color: "any",
+    image: "rent-any-colour.png",
+  },
+
+  // House and Hotel cards
 ];
