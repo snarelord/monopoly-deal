@@ -1,4 +1,4 @@
-# Monopoly Deal - Digital Passion Project
+# Monopoly Deal Digital - Passion Project
 
 Monopoly Deal is an exciting card game based on the classic Monopoly board game. In this digital version, players collect properties, use action cards to charge rent, swap properties, demand birthday money, and perform many other strategic actions. The goal is to be the first player to collect 3 complete property sets of different colors while outsmarting your opponents.
 
