@@ -352,7 +352,7 @@ export const cardData: Card[] = [
   // Property cards - Black
   {
     id: "station-kings-cross-station",
-    type: "station",
+    type: "property",
     name: "King's Cross Station",
     value: 2,
     color: "black",
@@ -361,7 +361,7 @@ export const cardData: Card[] = [
   },
   {
     id: "station-marylebone-station",
-    type: "station",
+    type: "property",
     name: "Marylebone Station",
     value: 2,
     color: "black",
@@ -370,7 +370,7 @@ export const cardData: Card[] = [
   },
   {
     id: "station-fenchurch-street-station",
-    type: "station",
+    type: "property",
     name: "Fenchurch St. Station",
     value: 2,
     color: "black",
@@ -379,7 +379,7 @@ export const cardData: Card[] = [
   },
   {
     id: "station-liverpool-street-station",
-    type: "station",
+    type: "property",
     name: "Liverpool St. Station",
     value: 2,
     color: "black",
@@ -389,7 +389,7 @@ export const cardData: Card[] = [
   // Utility cards
   {
     id: "utilities-electric-company",
-    type: "utility",
+    type: "property",
     name: "Electric Company",
     value: 2,
     color: "mint",
@@ -398,7 +398,7 @@ export const cardData: Card[] = [
   },
   {
     id: "utilities-water-works",
-    type: "utility",
+    type: "property",
     name: "Water Works",
     value: 2,
     color: "mint",

@@ -3,13 +3,10 @@ import { cardData } from "@/lib/card-data";
 
 // Initialise the game with players and a shuffled deck
 export function initializeGame(numPlayers: number) {
-  // Create deck
   const deck = createDeck();
 
-  // Shuffle deck
   const shuffledDeck = shuffleDeck([...deck]);
 
-  // Create players
   const players: Player[] = [];
   for (let i = 0; i < numPlayers; i++) {
     // Deal 5 cards to each player
@@ -236,9 +233,11 @@ export function getRequiredCardsForColor(color: string): number {
 // Add a function to validate card placement
 export function isValidCardPlacement(card: Card, targetArea: string): boolean {
   if (targetArea === "bank") {
-    // Any card can go in the bank EXCEPT property wildcards with no money value
     if (card.type === "wildcard" && card.value === 0) {
       return false;
+    }
+    if (card.type === "property" || card.type === "wildcard") {
+      return false; // cannot add these cards to the bank
     }
     return true;
   } else if (targetArea.startsWith("property-")) {
