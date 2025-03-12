@@ -1,6 +1,6 @@
 export interface Card {
   id: string;
-  type: "property" | "money" | "action" | "wildcard" | "station" | "utility";
+  type: "property" | "money" | "action" | "wildcard";
   name: string;
   value: number;
   color?: string;
