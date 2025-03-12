@@ -57,6 +57,12 @@ Monopoly Deal is an exciting card game based on the classic Monopoly board game.
 4. **Winning**:
    - You win when you collect 3 complete property sets of different colors. The game ends immediately when this happens.
 
+## Tech Stack 
+- **Next.js**
+- **React**
+- **JavaScript / TypeScript**
+- **Tailwind**
+
 ## 🔧 Installation
 
 COMING SOON
