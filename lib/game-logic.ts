@@ -70,8 +70,8 @@ export function endTurn(players: Player[], currentPlayerIndex: number) {
   const updatedPlayers = [...players];
   const currentPlayer = { ...updatedPlayers[currentPlayerIndex] };
 
-  // We don't automatically discard here - the player must choose which cards to discard
-  // This is handled in the UI with a discard modal
+  // don't automatically discard here the player must choose which cards to discard
+  // this is handled in the UI with a discard modal
 
   // Move to the next player
   const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
@@ -209,12 +209,12 @@ export function playCard(
   return updatedGameState;
 }
 
-// Get the number of cards required for a complete set of a specific color
+// Get the number of cards required for a complete set of a specific colour
 export function getRequiredCardsForColor(color: string): number {
   switch (color) {
     case "brown":
     case "dark blue":
-    case "utility":
+    case "mint":
       return 2;
     case "light blue":
     case "pink":
@@ -223,7 +223,7 @@ export function getRequiredCardsForColor(color: string): number {
     case "yellow":
     case "green":
       return 3;
-    case "station":
+    case "black":
       return 4;
     default:
       return 1;

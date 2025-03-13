@@ -1,4 +1,4 @@
-// File: /Users/kitjones/Desktop/monopoly-deal/app/page.tsx
+// File: C:\Users\kitjo\code\monopoly-deal\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
