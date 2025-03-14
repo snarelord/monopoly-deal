@@ -4,7 +4,9 @@ export interface Card {
   name: string;
   value: number;
   color?: string;
-  rent?: { [key: number]: number };
+  rent?:
+    | { [key: string]: number }
+    | { [color: string]: { [key: number]: number } }; // Updated rent type;
   secondaryColor?: string; // two-way wildcards
   actionType?: string;
   image: string;
