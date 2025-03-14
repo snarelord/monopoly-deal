@@ -413,6 +413,7 @@ export const cardData: Card[] = [
     value: 2,
     color: "orange",
     secondaryColor: "pink",
+    rent: { orange: { 1: 1, 2: 3, 3: 5 }, pink: { 1: 1, 2: 2, 3: 4 } },
     image: "/cards/orange-pink-wild-property.png",
   },
   {
@@ -422,6 +423,7 @@ export const cardData: Card[] = [
     value: 2,
     color: "orange",
     secondaryColor: "pink",
+    rent: { orange: { 1: 1, 2: 3, 3: 5 }, pink: { 1: 1, 2: 2, 3: 4 } },
     image: "/cards/orange-pink-wild-property.png",
   },
   {
@@ -431,6 +433,7 @@ export const cardData: Card[] = [
     value: 3,
     color: "yellow",
     secondaryColor: "red",
+    rent: { yellow: { 1: 2, 2: 4, 3: 6 }, red: { 1: 2, 2: 3, 3: 6 } },
     image: "/cards/yellow-red-wild-property.png",
   },
   {
@@ -440,6 +443,7 @@ export const cardData: Card[] = [
     value: 3,
     color: "yellow",
     secondaryColor: "red",
+    rent: { yellow: { 1: 2, 2: 4, 3: 6 }, red: { 1: 2, 2: 3, 3: 6 } },
     image: "/cards/yellow-red-wild-property.png",
   },
   {
@@ -449,6 +453,7 @@ export const cardData: Card[] = [
     value: 4,
     color: "green",
     secondaryColor: "dark blue",
+    rent: { green: { 1: 2, 2: 4, 3: 7 }, "dark blue": { 1: 3, 2: 8 } },
     image: "/cards/green-blue-wild-property.png",
   },
   {
@@ -458,6 +463,7 @@ export const cardData: Card[] = [
     value: 4,
     color: "black",
     secondaryColor: "green",
+    rent: { black: { 1: 1, 2: 2, 3: 3, 4: 4 }, green: { 1: 2, 2: 4, 3: 7 } },
     image: "/cards/black-green-wild-property.png",
   },
   {
@@ -467,6 +473,10 @@ export const cardData: Card[] = [
     value: 2,
     color: "black",
     secondaryColor: "light blue",
+    rent: {
+      black: { 1: 1, 2: 2, 3: 3, 4: 4 },
+      "light blue": { 1: 1, 2: 2, 3: 3 },
+    },
     image: "/cards/black-light-blue-wild-property.png",
   },
   {
@@ -476,6 +486,7 @@ export const cardData: Card[] = [
     value: 2,
     color: "black",
     secondaryColor: "mint",
+    rent: { black: { 1: 1, 2: 2, 3: 3, 4: 4 }, mint: { 1: 1, 2: 2 } },
     image: "/cards/black-mint-wild-property.png",
   },
   {
@@ -485,6 +496,7 @@ export const cardData: Card[] = [
     value: 1,
     color: "brown",
     secondaryColor: "light blue",
+    rent: { brown: { 1: 1, 2: 2 }, mint: { 1: 1, 2: 2 } },
     image: "/cards/brown-light-blue-wild-property.png",
   },
   {

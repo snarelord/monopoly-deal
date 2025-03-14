@@ -87,27 +87,52 @@ export function isPropertySetComplete(propertySet: PropertySet): boolean {
   return propertySet.cards.length >= propertySet.requiredCards;
 }
 
-// Update the calculateRentAmount function to use the rent values from the card data
-export function calculateRentAmount(propertySet: PropertySet): number {
-  // Count the number of properties in the set
-  const propertyCount = propertySet.cards.length;
+// Helper function to get rent from a card based on color and property count
+function getRentFromCard(
+  card: Card,
+  color: string,
+  propertyCount: number
+): number | undefined {
+  if (!card.rent) return undefined;
 
-  // If the set is empty, return 0
-  if (propertyCount === 0) return 0;
+  // Check if the rent is a nested object with colors
+  if (typeof Object.values(card.rent)[0] === "object") {
+    // This is a wildcard with multiple color rent values
+    const rentByColor = card.rent as {
+      [color: string]: { [key: number]: number };
+    };
 
-  // Find a property card with rent information
-  const propertyWithRent = propertySet.cards.find((card) => card.rent);
+    // Use the specified color's rent values
+    if (rentByColor[color]) {
+      const rentKeys = Object.keys(rentByColor[color])
+        .map(Number)
+        .sort((a, b) => a - b);
 
-  if (propertyWithRent && propertyWithRent.rent) {
-    // Use the rent value based on the number of properties
-    // If the exact count isn't in the rent object, use the highest available
-    const rentKeys = Object.keys(propertyWithRent.rent)
+      // Find the appropriate rent key based on property count
+      let rentKey = propertyCount;
+      if (!rentByColor[color][rentKey]) {
+        // If exact count isn't available, find the closest lower value
+        for (let i = rentKeys.length - 1; i >= 0; i--) {
+          if (rentKeys[i] <= propertyCount) {
+            rentKey = rentKeys[i];
+            break;
+          }
+        }
+      }
+
+      return rentByColor[color][rentKey];
+    }
+  } else {
+    // This is a regular property card with simple rent values
+    const simpleRent = card.rent as { [key: number]: number };
+    const rentKeys = Object.keys(simpleRent)
       .map(Number)
       .sort((a, b) => a - b);
-    let rentKey = propertyCount;
 
-    // If the exact count isn't available, find the closest lower value
-    if (!propertyWithRent.rent[rentKey]) {
+    // Find the appropriate rent key based on property count
+    let rentKey = propertyCount;
+    if (!simpleRent[rentKey]) {
+      // If exact count isn't available, find the closest lower value
       for (let i = rentKeys.length - 1; i >= 0; i--) {
         if (rentKeys[i] <= propertyCount) {
           rentKey = rentKeys[i];
@@ -116,34 +141,65 @@ export function calculateRentAmount(propertySet: PropertySet): number {
       }
     }
 
-    let rentAmount = propertyWithRent.rent[rentKey] || 1; // Default to 1 if no rent found
-
-    // If the set is complete, double the rent
-    if (propertySet.isComplete) {
-      rentAmount *= 2;
-    }
-
-    // Add extra for houses and hotels
-    rentAmount += propertySet.houses * 3;
-    rentAmount += propertySet.hotels * 5;
-
-    return rentAmount;
-  } else {
-    // Fallback to the old calculation if no rent information is available
-    // Base rent is 1M per property card
-    let rentAmount = propertyCount;
-
-    // If the set is complete, double the rent
-    if (propertySet.isComplete) {
-      rentAmount *= 2;
-    }
-
-    // Add extra for houses and hotels
-    rentAmount += propertySet.houses * 3;
-    rentAmount += propertySet.hotels * 5;
-
-    return rentAmount;
+    return simpleRent[rentKey];
   }
+
+  return undefined;
+}
+
+// Update the calculateRentAmount function to use the rent values from the card data
+export function calculateRentAmount(propertySet: PropertySet): number {
+  // Count the number of properties in the set
+  const propertyCount = propertySet.cards.length;
+
+  // If the set is empty, return 0
+  if (propertyCount === 0) return 0;
+
+  // Get the color of the property set
+  const setColor = propertySet.color;
+
+  // Try to find a card with rent information
+  let rentAmount = 0;
+
+  // First, try to find a regular property card with rent info
+  const regularPropertyCard = propertySet.cards.find(
+    (card) =>
+      card.type === "property" &&
+      card.rent &&
+      typeof Object.values(card.rent)[0] === "number"
+  );
+
+  if (regularPropertyCard) {
+    const rent = getRentFromCard(regularPropertyCard, setColor, propertyCount);
+    if (rent !== undefined) {
+      rentAmount = rent;
+    }
+  } else {
+    // If no regular property card found, try to find a wildcard with rent info for this color
+    const wildcard = propertySet.cards.find(
+      (card) =>
+        card.type === "wildcard" &&
+        card.rent &&
+        (card.color === setColor || card.secondaryColor === setColor)
+    );
+
+    if (wildcard) {
+      const rent = getRentFromCard(wildcard, setColor, propertyCount);
+      if (rent !== undefined) {
+        rentAmount = rent;
+      }
+    } else {
+      // Fallback to a basic calculation if no rent information is available
+      // Use the property count as the base rent amount
+      rentAmount = propertyCount;
+    }
+  }
+
+  // Add extra for houses and hotels
+  rentAmount += propertySet.houses * 3;
+  rentAmount += propertySet.hotels * 5;
+
+  return rentAmount;
 }
 
 // Play a card from hand to a specific area
@@ -230,7 +286,7 @@ export function getRequiredCardsForColor(color: string): number {
   }
 }
 
-// Add a function to validate card placement
+// validate card placement
 export function isValidCardPlacement(card: Card, targetArea: string): boolean {
   if (targetArea === "bank") {
     if (card.type === "wildcard" && card.value === 0) {
@@ -241,36 +297,35 @@ export function isValidCardPlacement(card: Card, targetArea: string): boolean {
     }
     return true;
   } else if (targetArea.startsWith("property-")) {
-    // Only property cards and wildcards can go in property sets
+    // only property cards and wildcards can go in property sets
     if (card.type === "property" || card.type === "wildcard") {
-      // Special case for "Any Color" wildcards
+      // special case for any color wildcards
       const isAnyColorWildcard =
         card.type === "wildcard" &&
         (card.name.toLowerCase().includes("any color") ||
           card.name.toLowerCase().includes("any colour"));
 
       if (isAnyColorWildcard) {
-        // "Any Color" wildcards can only be added to existing property sets
-        // They cannot create their own set
+        // any color wildcards can only be added to existing property sets, they cannot create their own set
         const setIndex = Number.parseInt(targetArea.split("-")[1]);
         return (
           !targetArea.endsWith(`-${setIndex}`) ||
           setIndex < Number.POSITIVE_INFINITY
-        ); // Always true for existing sets
+        ); // always true for existing sets
       }
 
       return true;
     }
     return false;
   } else if (targetArea === "action") {
-    // Only action cards can be played as actions
+    // only action cards can be played as actions
     return card.type === "action";
   }
 
   return false;
 }
 
-// Add a function to discard cards
+// function to discard cards
 export function discardCards(
   player: Player,
   cardIndices: number[],
@@ -279,14 +334,14 @@ export function discardCards(
   const updatedPlayer = { ...player };
   const updatedDeck = [...deck];
 
-  // Sort indices in descending order to avoid shifting issues when removing
+  // sort indices
   const sortedIndices = [...cardIndices].sort((a, b) => b - a);
 
-  // Remove cards from hand and add to bottom of deck
+  // remove cards from hand and add to bottom of the deck
   for (const index of sortedIndices) {
     if (index >= 0 && index < updatedPlayer.hand.length) {
       const card = updatedPlayer.hand.splice(index, 1)[0];
-      updatedDeck.unshift(card); // Add to bottom of deck
+      updatedDeck.unshift(card); // add to bottom of deck
     }
   }
 
