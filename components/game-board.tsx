@@ -44,7 +44,7 @@ export default function GameBoard() {
     card: Card;
   } | null>(null);
 
-  // Initialize game
+  // Initialise game
   const startGame = (numPlayers: number) => {
     const { initializedPlayers, initializedDeck } = initializeGame(numPlayers);
 

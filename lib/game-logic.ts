@@ -9,7 +9,7 @@ export function initializeGame(numPlayers: number) {
 
   const players: Player[] = [];
   for (let i = 0; i < numPlayers; i++) {
-    // Deal 5 cards to each player
+    // deal 5 cards to each player
     const hand: Card[] = [];
     for (let j = 0; j < 5; j++) {
       if (shuffledDeck.length > 0) {
@@ -87,7 +87,7 @@ export function isPropertySetComplete(propertySet: PropertySet): boolean {
   return propertySet.cards.length >= propertySet.requiredCards;
 }
 
-// Helper function to get rent from a card based on color and property count
+// Helper function to get rent from a card based on colour and property count
 function getRentFromCard(
   card: Card,
   color: string,

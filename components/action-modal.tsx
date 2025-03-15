@@ -35,7 +35,7 @@ export default function ActionModal({
     );
   };
 
-  // Determine what UI to show based on action type
+  // determine what UI to show based on action type
   const renderActionUI = () => {
     switch (card.actionType) {
       case "debt-collector":
@@ -46,7 +46,7 @@ export default function ActionModal({
             </p>
             <div className="grid grid-cols-2 gap-2">
               {players.map((player, index) => {
-                if (index === currentPlayerIndex) return null; // Skip current player
+                if (index === currentPlayerIndex) return null; // skip current player
                 return (
                   <button
                     key={index}
@@ -95,7 +95,8 @@ export default function ActionModal({
         return (
           <div className="mb-4">
             <p className="mb-2 font-semibold">
-              Collect rent for your {rentColors.join(" and ")} properties:
+              Collect rent for your {rentColors.join(" and ")} properties:{" "}
+              {/* logic needs fixing here and elsewhere */}
             </p>
             <p className="text-sm text-gray-600 mb-2">
               Select a player to collect rent from:
