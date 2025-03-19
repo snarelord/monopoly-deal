@@ -20,9 +20,7 @@ export default function PropertySelectionModal({
   allowCompleteSet = false,
 }: PropertySelectionModalProps) {
   const [selectedSetIndex, setSelectedSetIndex] = useState<number | null>(null);
-  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(
-    null
-  );
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
 
   const handleSetSelect = (index: number) => {
     setSelectedSetIndex(index);
@@ -40,9 +38,7 @@ export default function PropertySelectionModal({
   };
 
   // Determine the title based on the property selection type
-  const modalTitle = title.includes("forced-deal-own")
-    ? "Select one of your properties to swap"
-    : title;
+  const modalTitle = title.includes("forced-deal-own") ? "Select one of your properties to swap" : title;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -60,19 +56,12 @@ export default function PropertySelectionModal({
                 <div
                   key={setIndex}
                   className={`p-2 border rounded cursor-pointer ${
-                    selectedSetIndex === setIndex
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-300"
+                    selectedSetIndex === setIndex ? "border-blue-500 bg-blue-50" : "border-gray-300"
                   }`}
                   onClick={() => handleSetSelect(setIndex)}
                 >
-                  <div
-                    className={`h-4 bg-${set.color.replace(
-                      " ",
-                      "-"
-                    )} rounded-t-sm mb-1`}
-                  ></div>
-                  <div className="text-sm font-medium">{set.color} Set</div>
+                  <div className={`h-4 bg-${set.colour.replace(" ", "-")} rounded-t-sm mb-1`}></div>
+                  <div className="text-sm font-medium">{set.colour} Set</div>
                   <div className="text-xs text-gray-600">
                     Cards: {set.cards.length}/{set.requiredCards}
                   </div>
@@ -90,9 +79,7 @@ export default function PropertySelectionModal({
                 <div
                   key={cardIndex}
                   className={`cursor-pointer transition-transform ${
-                    selectedCardIndex === cardIndex
-                      ? "transform -translate-y-2"
-                      : ""
+                    selectedCardIndex === cardIndex ? "transform -translate-y-2" : ""
                   }`}
                   onClick={() => handleCardSelect(cardIndex)}
                 >
@@ -109,10 +96,7 @@ export default function PropertySelectionModal({
         )}
 
         <div className="flex justify-end gap-2">
-          <button
-            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-            onClick={onCancel}
-          >
+          <button className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" onClick={onCancel}>
             Cancel
           </button>
           <button

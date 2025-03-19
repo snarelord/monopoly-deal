@@ -3,17 +3,15 @@ export interface Card {
   type: "property" | "money" | "action" | "wildcard";
   name: string;
   value: number;
-  color?: string;
-  rent?:
-    | { [key: string]: number }
-    | { [color: string]: { [key: number]: number } }; // Updated rent type;
-  secondaryColor?: string; // two-way wildcards
+  colour?: string;
+  rent?: { [key: string]: number } | { [colour: string]: { [key: number]: number } }; // Updated rent type;
+  secondaryColour?: string; // two-way wildcards
   actionType?: string;
   image: string;
 }
 
 export interface PropertySet {
-  color: string;
+  colour: string;
   cards: Card[];
   isComplete: boolean;
   houses: number;
