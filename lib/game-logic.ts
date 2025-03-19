@@ -33,6 +33,7 @@ export function initialiseGame(numPlayers: number) {
 
 // Create the deck with all cards
 function createDeck(): Card[] {
+  console.log("CARD DATA START:", cardData);
   return cardData;
 }
 
@@ -45,41 +46,39 @@ function shuffleDeck(deck: Card[]): Card[] {
   return deck;
 }
 
-// Update the drawCards function to only draw 2 cards (or 5 if hand is empty)
+// helper function to determine hwo many cards to draw
+function getCards(handLength: number, defaultCards: number, emptyHandCards: number): number {
+  return handLength === 0 ? emptyHandCards : defaultCards;
+}
+
+// helper function to draw cards from deck
+function drawCardsFromDeck(deck: Card[]): Card | undefined {
+  console.log("CARD DATA:", deck);
+  return deck.pop();
+}
+
 export function drawCards(player: Player, deck: Card[], numCards = 2) {
   const updatedPlayer = { ...player };
   const updatedDeck = [...deck];
-
-  // If player has no cards, draw 5 instead of 2
-  const cardsToDraw = player.hand.length === 0 ? 5 : numCards;
+  const cardsToDraw = getCards(player.hand.length, numCards, 5);
 
   for (let i = 0; i < cardsToDraw; i++) {
-    if (updatedDeck.length > 0) {
-      updatedPlayer.hand.push(updatedDeck.pop()!);
-    }
+    const drawnCard = drawCardsFromDeck(updatedDeck);
+    if (drawnCard) updatedPlayer.hand.push(drawnCard);
   }
 
-  return {
-    updatedPlayer,
-    updatedDeck,
-  };
+  return { updatedPlayer, updatedDeck };
 }
 
-// Update the endTurn function to handle discarding excess cards
+// helper function to calculate the next player index for endTurn function
+function getNextPlayerIndex(currentPlayerIndex: number, totalPlayers: number) {
+  return (currentPlayerIndex + 1) % totalPlayers;
+}
+
 export function endTurn(players: Player[], currentPlayerIndex: number) {
-  const updatedPlayers = [...players];
-  const currentPlayer = { ...updatedPlayers[currentPlayerIndex] };
-
-  // don't automatically discard here the player must choose which cards to discard
-  // this is handled in the UI with a discard modal
-
-  // Move to the next player
-  const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
-
-  return {
-    nextPlayerIndex,
-    updatedPlayers,
-  };
+  // move to next player
+  const nextPlayerIndex = getNextPlayerIndex(currentPlayerIndex, players.length);
+  return { nextPlayerIndex, updatedPlayers: players };
 }
 
 // Check if a property set is complete
