@@ -12,16 +12,8 @@ interface ActionModalProps {
   onCancel: () => void;
 }
 
-export default function ActionModal({
-  card,
-  players,
-  currentPlayerIndex,
-  onComplete,
-  onCancel,
-}: ActionModalProps) {
-  const [selectedPlayerIndex, setSelectedPlayerIndex] = useState<number | null>(
-    null
-  );
+export default function ActionModal({ card, players, currentPlayerIndex, onComplete, onCancel }: ActionModalProps) {
+  const [selectedPlayerIndex, setSelectedPlayerIndex] = useState<number | null>(null);
   const [selectedAmount, setSelectedAmount] = useState<number>(0);
 
   const handlePlayerSelect = (index: number) => {
@@ -29,10 +21,7 @@ export default function ActionModal({
   };
 
   const handleComplete = () => {
-    onComplete(
-      selectedPlayerIndex !== null ? selectedPlayerIndex : undefined,
-      selectedAmount || undefined
-    );
+    onComplete(selectedPlayerIndex !== null ? selectedPlayerIndex : undefined, selectedAmount || undefined);
   };
 
   // determine what UI to show based on action type
@@ -41,9 +30,7 @@ export default function ActionModal({
       case "debt-collector":
         return (
           <div className="mb-4">
-            <p className="mb-2 font-semibold">
-              Select a player to collect 5M from:
-            </p>
+            <p className="mb-2 font-semibold">Select a player to collect 5M from:</p>
             <div className="grid grid-cols-2 gap-2">
               {players.map((player, index) => {
                 if (index === currentPlayerIndex) return null; // skip current player
@@ -51,16 +38,13 @@ export default function ActionModal({
                   <button
                     key={index}
                     className={`p-2 border rounded ${
-                      selectedPlayerIndex === index
-                        ? "bg-blue-100 border-blue-500"
-                        : "border-gray-300"
+                      selectedPlayerIndex === index ? "bg-blue-100 border-blue-500" : "border-gray-300"
                     }`}
                     onClick={() => handlePlayerSelect(index)}
                   >
                     Player {player.id + 1}
                     <div className="text-xs text-gray-600">
-                      Bank: $
-                      {player.bank.reduce((sum, card) => sum + card.value, 0)}M
+                      Bank: ${player.bank.reduce((sum, card) => sum + card.value, 0)}M
                     </div>
                   </button>
                 );
@@ -74,8 +58,8 @@ export default function ActionModal({
           <div className="mb-4">
             <p className="mb-2">All players will pay you 2M.</p>
             <p className="text-sm text-gray-600">
-              (This will automatically collect from all players' banks. If a
-              player doesn't have enough money, they'll pay what they can.)
+              (This will automatically collect from all players' banks. If a player doesn't have enough money, they'll
+              pay what they can.)
             </p>
           </div>
         );
@@ -88,19 +72,17 @@ export default function ActionModal({
         );
 
       case "rent":
-        const rentColors = [];
-        if (card.color) rentColors.push(card.color);
-        if (card.secondaryColor) rentColors.push(card.secondaryColor);
+        const rentColours = [];
+        if (card.colour) rentColours.push(card.colour);
+        if (card.secondaryColour) rentColours.push(card.secondaryColour);
 
         return (
           <div className="mb-4">
             <p className="mb-2 font-semibold">
-              Collect rent for your {rentColors.join(" and ")} properties:{" "}
+              Collect rent for your {rentColours.join(" and ")} properties:{" "}
               {/* logic needs fixing here and elsewhere */}
             </p>
-            <p className="text-sm text-gray-600 mb-2">
-              Select a player to collect rent from:
-            </p>
+            <p className="text-sm text-gray-600 mb-2">Select a player to collect rent from:</p>
             <div className="grid grid-cols-2 gap-2">
               {players.map((player, index) => {
                 if (index === currentPlayerIndex) return null; // skip current player
@@ -108,16 +90,13 @@ export default function ActionModal({
                   <button
                     key={index}
                     className={`p-2 border rounded ${
-                      selectedPlayerIndex === index
-                        ? "bg-blue-100 border-blue-500"
-                        : "border-gray-300"
+                      selectedPlayerIndex === index ? "bg-blue-100 border-blue-500" : "border-gray-300"
                     }`}
                     onClick={() => handlePlayerSelect(index)}
                   >
                     Player {player.id + 1}
                     <div className="text-xs text-gray-600">
-                      Bank: $
-                      {player.bank.reduce((sum, card) => sum + card.value, 0)}M
+                      Bank: ${player.bank.reduce((sum, card) => sum + card.value, 0)}M
                     </div>
                   </button>
                 );
@@ -135,25 +114,19 @@ export default function ActionModal({
                 if (index === currentPlayerIndex) return null; // skip current player
 
                 // only show players with complete property sets
-                const completePropertySets = player.properties.filter(
-                  (set) => set.isComplete
-                );
+                const completePropertySets = player.properties.filter((set) => set.isComplete);
                 if (completePropertySets.length === 0) return null;
 
                 return (
                   <button
                     key={index}
                     className={`p-2 border rounded ${
-                      selectedPlayerIndex === index
-                        ? "bg-blue-100 border-blue-500"
-                        : "border-gray-300"
+                      selectedPlayerIndex === index ? "bg-blue-100 border-blue-500" : "border-gray-300"
                     }`}
                     onClick={() => handlePlayerSelect(index)}
                   >
                     Player {player.id + 1}
-                    <div className="text-xs text-gray-600">
-                      Complete sets: {completePropertySets.length}
-                    </div>
+                    <div className="text-xs text-gray-600">Complete sets: {completePropertySets.length}</div>
                   </button>
                 );
               })}
@@ -164,36 +137,26 @@ export default function ActionModal({
       case "sly-deal":
         return (
           <div className="mb-4">
-            <p className="mb-2 font-semibold">
-              Steal a property card (not from a complete set):
-            </p>
+            <p className="mb-2 font-semibold">Steal a property card (not from a complete set):</p>
             <div className="grid grid-cols-2 gap-2">
               {players.map((player, index) => {
                 if (index === currentPlayerIndex) return null; // skip current player
 
                 // only show players with properties that aren't in complete sets
-                const incompleteProperties = player.properties.filter(
-                  (set) => !set.isComplete
-                );
+                const incompleteProperties = player.properties.filter((set) => !set.isComplete);
                 if (incompleteProperties.length === 0) return null;
 
                 return (
                   <button
                     key={index}
                     className={`p-2 border rounded ${
-                      selectedPlayerIndex === index
-                        ? "bg-blue-100 border-blue-500"
-                        : "border-gray-300"
+                      selectedPlayerIndex === index ? "bg-blue-100 border-blue-500" : "border-gray-300"
                     }`}
                     onClick={() => handlePlayerSelect(index)}
                   >
                     Player {player.id + 1}
                     <div className="text-xs text-gray-600">
-                      Properties available:{" "}
-                      {incompleteProperties.reduce(
-                        (sum, set) => sum + set.cards.length,
-                        0
-                      )}
+                      Properties available: {incompleteProperties.reduce((sum, set) => sum + set.cards.length, 0)}
                     </div>
                   </button>
                 );
@@ -205,36 +168,26 @@ export default function ActionModal({
       case "forced-deal":
         return (
           <div className="mb-4">
-            <p className="mb-2 font-semibold">
-              Swap a property with another player (not from complete sets):
-            </p>
+            <p className="mb-2 font-semibold">Swap a property with another player (not from complete sets):</p>
             <div className="grid grid-cols-2 gap-2">
               {players.map((player, index) => {
                 if (index === currentPlayerIndex) return null; // skip current player
 
                 // only show players with properties that aren't in complete sets
-                const incompleteProperties = player.properties.filter(
-                  (set) => !set.isComplete
-                );
+                const incompleteProperties = player.properties.filter((set) => !set.isComplete);
                 if (incompleteProperties.length === 0) return null;
 
                 return (
                   <button
                     key={index}
                     className={`p-2 border rounded ${
-                      selectedPlayerIndex === index
-                        ? "bg-blue-100 border-blue-500"
-                        : "border-gray-300"
+                      selectedPlayerIndex === index ? "bg-blue-100 border-blue-500" : "border-gray-300"
                     }`}
                     onClick={() => handlePlayerSelect(index)}
                   >
                     Player {player.id + 1}
                     <div className="text-xs text-gray-600">
-                      Properties available:{" "}
-                      {incompleteProperties.reduce(
-                        (sum, set) => sum + set.cards.length,
-                        0
-                      )}
+                      Properties available: {incompleteProperties.reduce((sum, set) => sum + set.cards.length, 0)}
                     </div>
                   </button>
                 );
@@ -271,10 +224,7 @@ export default function ActionModal({
         {renderActionUI()}
 
         <div className="flex justify-end gap-2">
-          <button
-            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-            onClick={onCancel}
-          >
+          <button className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" onClick={onCancel}>
             Cancel
           </button>
           <button

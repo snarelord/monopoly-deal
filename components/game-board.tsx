@@ -8,12 +8,12 @@ import ActionModal from "@/components/action-modal";
 import PropertySelectionModal from "@/components/property-selection-modal";
 import type { Card, GameState } from "@/lib/types";
 import {
-  initializeGame,
+  initialiseGame,
   drawCards,
   endTurn,
   isValidCardPlacement,
   discardCards,
-  getRequiredCardsForColor,
+  getRequiredCardsForColour,
   calculateRentAmount,
 } from "@/lib/game-logic";
 import GameControls from "@/components/game-controls";
@@ -27,14 +27,9 @@ export default function GameBoard() {
     card: Card;
     index: number;
   } | null>(null);
-  const [showPropertySelectionModal, setShowPropertySelectionModal] =
-    useState(false);
-  const [propertySelectionType, setPropertySelectionType] =
-    useState<string>("");
-  const [
-    targetPlayerForPropertySelection,
-    setTargetPlayerForPropertySelection,
-  ] = useState<number | null>(null);
+  const [showPropertySelectionModal, setShowPropertySelectionModal] = useState(false);
+  const [propertySelectionType, setPropertySelectionType] = useState<string>("");
+  const [targetPlayerForPropertySelection, setTargetPlayerForPropertySelection] = useState<number | null>(null);
 
   // Add state for forced deal and sly deal
   const [forcedDealTargetCard, setForcedDealTargetCard] = useState<{
@@ -46,11 +41,11 @@ export default function GameBoard() {
 
   // Initialise game
   const startGame = (numPlayers: number) => {
-    const { initializedPlayers, initializedDeck } = initializeGame(numPlayers);
+    const { initialisedPlayers, initialisedDeck } = initialiseGame(numPlayers);
 
     setGameState({
-      players: initializedPlayers,
-      deck: initializedDeck,
+      players: initialisedPlayers,
+      deck: initialisedDeck,
       currentPlayerIndex: 0,
       cardsPlayed: 0,
       isGameOver: false,
@@ -66,10 +61,7 @@ export default function GameBoard() {
   const handleDrawCards = () => {
     if (!gameState || gameState.hasDrawnCards) return;
 
-    const { updatedPlayer, updatedDeck } = drawCards(
-      gameState.players[gameState.currentPlayerIndex],
-      gameState.deck
-    );
+    const { updatedPlayer, updatedDeck } = drawCards(gameState.players[gameState.currentPlayerIndex], gameState.deck);
 
     const updatedPlayers = [...gameState.players];
     updatedPlayers[gameState.currentPlayerIndex] = updatedPlayer;
@@ -84,22 +76,15 @@ export default function GameBoard() {
   };
 
   // Handle playing a card
-  const handlePlayCard = (
-    cardIndex: number,
-    targetArea: string,
-    targetPlayer?: number
-  ) => {
-    if (!gameState || gameState.cardsPlayed >= 3 || !gameState.hasDrawnCards)
-      return;
+  const handlePlayCard = (cardIndex: number, targetArea: string, targetPlayer?: number) => {
+    if (!gameState || gameState.cardsPlayed >= 3 || !gameState.hasDrawnCards) return;
 
     const player = gameState.players[gameState.currentPlayerIndex];
     const card = player.hand[cardIndex];
 
     // Validate card placement
     if (!isValidCardPlacement(card, targetArea)) {
-      alert(
-        "Invalid card placement. Check the rules for where this card can be played."
-      );
+      alert("Invalid card placement. Check the rules for where this card can be played.");
       return;
     }
 
@@ -127,33 +112,28 @@ export default function GameBoard() {
         };
 
         // Check if set is now complete
-        updatedSet.isComplete =
-          updatedSet.cards.length >= updatedSet.requiredCards;
+        updatedSet.isComplete = updatedSet.cards.length >= updatedSet.requiredCards;
 
         updatedPlayer.properties[setIndex] = updatedSet;
       } else {
-        // Create new property set (only for regular properties, not "Any Color" wildcards)
-        const isAnyColorWildcard =
-          card.type === "wildcard" &&
-          card.name.toLowerCase().includes("any color");
+        // Create new property set (only for regular properties, not "Any Colour" wildcards)
+        const isAnyColourWildcard = card.type === "wildcard" && card.name.toLowerCase().includes("any colour");
 
-        if (!isAnyColorWildcard) {
+        if (!isAnyColourWildcard) {
           updatedPlayer.properties = [
             ...updatedPlayer.properties,
             {
-              color: card.color || "",
+              colour: card.colour || "",
               cards: [card],
               isComplete: false,
               houses: 0,
               hotels: 0,
-              requiredCards: getRequiredCardsForColor(card.color || ""),
+              requiredCards: getRequiredCardsForColour(card.colour || ""),
             },
           ];
         } else {
-          // Any Color wildcards can't create their own sets
-          alert(
-            "Any Color wildcards must be added to an existing property set."
-          );
+          // Any Colour wildcards can't create their own sets
+          alert("Any Colour wildcards must be added to an existing property set.");
           return;
         }
       }
@@ -174,8 +154,7 @@ export default function GameBoard() {
 
   // Handle playing an action card
   const handlePlayActionCard = (cardIndex: number) => {
-    if (!gameState || gameState.cardsPlayed >= 3 || !gameState.hasDrawnCards)
-      return;
+    if (!gameState || gameState.cardsPlayed >= 3 || !gameState.hasDrawnCards) return;
 
     const player = gameState.players[gameState.currentPlayerIndex];
     const card = player.hand[cardIndex];
@@ -193,10 +172,7 @@ export default function GameBoard() {
   };
 
   // Handle completing an action card
-  const handleActionCardComplete = (
-    targetPlayerIndex?: number,
-    amount?: number
-  ) => {
+  const handleActionCardComplete = (targetPlayerIndex?: number, amount?: number) => {
     if (!gameState || !actionCardInProgress) return;
 
     const currentPlayerIndex = gameState.currentPlayerIndex;
@@ -220,10 +196,7 @@ export default function GameBoard() {
       case "debt-collector":
         if (targetPlayerIndex !== undefined) {
           const targetPlayer = { ...updatedPlayers[targetPlayerIndex] };
-          const amountToPay = Math.min(
-            5,
-            calculateBankTotal(targetPlayer.bank)
-          );
+          const amountToPay = Math.min(5, calculateBankTotal(targetPlayer.bank));
 
           if (amountToPay > 0) {
             // Find cards to pay with (simple implementation - just take the first cards that add up to the amount)
@@ -231,9 +204,7 @@ export default function GameBoard() {
             let totalPaid = 0;
 
             // Sort bank cards by value (ascending) to optimize payment
-            const sortedBank = [...targetPlayer.bank].sort(
-              (a, b) => a.value - b.value
-            );
+            const sortedBank = [...targetPlayer.bank].sort((a, b) => a.value - b.value);
 
             for (const bankCard of sortedBank) {
               if (totalPaid < amountToPay) {
@@ -255,9 +226,7 @@ export default function GameBoard() {
             updatedPlayer.bank = [...updatedPlayer.bank, ...cardsToPay];
 
             updatedPlayers[targetPlayerIndex] = targetPlayer;
-            message = `Collected $${totalPaid}M from Player ${
-              targetPlayerIndex + 1
-            }`;
+            message = `Collected $${totalPaid}M from Player ${targetPlayerIndex + 1}`;
           } else {
             message = `Player ${targetPlayerIndex + 1} has no money to pay`;
           }
@@ -271,10 +240,7 @@ export default function GameBoard() {
         updatedPlayers.forEach((player, index) => {
           if (index !== currentPlayerIndex) {
             const playerToUpdate = { ...player };
-            const amountToPay = Math.min(
-              2,
-              calculateBankTotal(playerToUpdate.bank)
-            );
+            const amountToPay = Math.min(2, calculateBankTotal(playerToUpdate.bank));
 
             if (amountToPay > 0) {
               // Find cards to pay with
@@ -282,9 +248,7 @@ export default function GameBoard() {
               let totalPaid = 0;
 
               // Sort bank cards by value (ascending) to optimize payment
-              const sortedBank = [...playerToUpdate.bank].sort(
-                (a, b) => a.value - b.value
-              );
+              const sortedBank = [...playerToUpdate.bank].sort((a, b) => a.value - b.value);
 
               for (const bankCard of sortedBank) {
                 if (totalPaid < amountToPay) {
@@ -316,11 +280,7 @@ export default function GameBoard() {
 
       case "pass-go":
         // Draw 2 more cards
-        const { updatedPlayer: playerWithExtraCards, updatedDeck } = drawCards(
-          updatedPlayer,
-          gameState.deck,
-          2
-        );
+        const { updatedPlayer: playerWithExtraCards, updatedDeck } = drawCards(updatedPlayer, gameState.deck, 2);
 
         updatedPlayer.hand = playerWithExtraCards.hand;
 
@@ -338,15 +298,13 @@ export default function GameBoard() {
 
       case "rent":
         if (targetPlayerIndex !== undefined) {
-          // Calculate rent based on properties of the specified colors
-          const rentColors: string[] = [];
-          if (card.color) rentColors.push(card.color);
-          if (card.secondaryColor) rentColors.push(card.secondaryColor);
+          // Calculate rent based on properties of the specified colours
+          const rentColours: string[] = [];
+          if (card.colour) rentColours.push(card.colour);
+          if (card.secondaryColour) rentColours.push(card.secondaryColour);
 
-          // Find property sets of the specified colors
-          const relevantSets = updatedPlayer.properties.filter((set) =>
-            rentColors.includes(set.color)
-          );
+          // Find property sets of the specified colours
+          const relevantSets = updatedPlayer.properties.filter((set) => rentColours.includes(set.colour));
 
           // Calculate rent amount
           let rentAmount = 0;
@@ -356,10 +314,7 @@ export default function GameBoard() {
 
           if (rentAmount > 0) {
             const targetPlayer = { ...updatedPlayers[targetPlayerIndex] };
-            const amountToPay = Math.min(
-              rentAmount,
-              calculateBankTotal(targetPlayer.bank)
-            );
+            const amountToPay = Math.min(rentAmount, calculateBankTotal(targetPlayer.bank));
 
             if (amountToPay > 0) {
               // Find cards to pay with
@@ -367,9 +322,7 @@ export default function GameBoard() {
               let totalPaid = 0;
 
               // Sort bank cards by value (ascending) to optimize payment
-              const sortedBank = [...targetPlayer.bank].sort(
-                (a, b) => a.value - b.value
-              );
+              const sortedBank = [...targetPlayer.bank].sort((a, b) => a.value - b.value);
 
               for (const bankCard of sortedBank) {
                 if (totalPaid < amountToPay) {
@@ -391,16 +344,12 @@ export default function GameBoard() {
               updatedPlayer.bank = [...updatedPlayer.bank, ...cardsToPay];
 
               updatedPlayers[targetPlayerIndex] = targetPlayer;
-              message = `Collected $${totalPaid}M rent from Player ${
-                targetPlayerIndex + 1
-              }`;
+              message = `Collected $${totalPaid}M rent from Player ${targetPlayerIndex + 1}`;
             } else {
-              message = `Player ${
-                targetPlayerIndex + 1
-              } has no money to pay rent`;
+              message = `Player ${targetPlayerIndex + 1} has no money to pay rent`;
             }
           } else {
-            message = `No properties of the specified colors to collect rent for`;
+            message = `No properties of the specified colours to collect rent for`;
           }
         }
         break;
@@ -478,25 +427,18 @@ export default function GameBoard() {
           const stolenSet = { ...targetPlayer.properties[setIndex] };
 
           // Remove the set from target player
-          targetPlayer.properties = targetPlayer.properties.filter(
-            (_, i) => i !== setIndex
-          );
+          targetPlayer.properties = targetPlayer.properties.filter((_, i) => i !== setIndex);
 
           // Add the set to current player
           currentPlayer.properties = [...currentPlayer.properties, stolenSet];
 
-          message = `Stole ${stolenSet.color} property set from Player ${
-            targetPlayerIndex + 1
-          }`;
+          message = `Stole ${stolenSet.colour} property set from Player ${targetPlayerIndex + 1}`;
         }
         break;
 
       case "sly-deal":
         // Steal a single property card
-        if (
-          setIndex < targetPlayer.properties.length &&
-          cardIndex < targetPlayer.properties[setIndex].cards.length
-        ) {
+        if (setIndex < targetPlayer.properties.length && cardIndex < targetPlayer.properties[setIndex].cards.length) {
           const stolenCard = targetPlayer.properties[setIndex].cards[cardIndex];
 
           // Remove the card from target player's set
@@ -509,17 +451,14 @@ export default function GameBoard() {
             updatedTargetProperties.splice(setIndex, 1);
           } else {
             // Update the set's completion status
-            updatedSet.isComplete =
-              updatedSet.cards.length >= updatedSet.requiredCards;
+            updatedSet.isComplete = updatedSet.cards.length >= updatedSet.requiredCards;
             updatedTargetProperties[setIndex] = updatedSet;
           }
 
           targetPlayer.properties = updatedTargetProperties;
 
           // Add the card to current player's properties
-          const existingSetIndex = currentPlayer.properties.findIndex(
-            (set) => set.color === stolenCard.color
-          );
+          const existingSetIndex = currentPlayer.properties.findIndex((set) => set.colour === stolenCard.colour);
 
           if (existingSetIndex >= 0) {
             // Add to existing set
@@ -528,8 +467,7 @@ export default function GameBoard() {
               ...updatedCurrentProperties[existingSetIndex],
             };
             updatedCurrentSet.cards = [...updatedCurrentSet.cards, stolenCard];
-            updatedCurrentSet.isComplete =
-              updatedCurrentSet.cards.length >= updatedCurrentSet.requiredCards;
+            updatedCurrentSet.isComplete = updatedCurrentSet.cards.length >= updatedCurrentSet.requiredCards;
             updatedCurrentProperties[existingSetIndex] = updatedCurrentSet;
             currentPlayer.properties = updatedCurrentProperties;
           } else {
@@ -537,28 +475,23 @@ export default function GameBoard() {
             currentPlayer.properties = [
               ...currentPlayer.properties,
               {
-                color: stolenCard.color || "",
+                colour: stolenCard.colour || "",
                 cards: [stolenCard],
                 isComplete: false,
                 houses: 0,
                 hotels: 0,
-                requiredCards: getRequiredCardsForColor(stolenCard.color || ""),
+                requiredCards: getRequiredCardsForColour(stolenCard.colour || ""),
               },
             ];
           }
 
-          message = `Stole ${stolenCard.name} from Player ${
-            targetPlayerIndex + 1
-          }`;
+          message = `Stole ${stolenCard.name} from Player ${targetPlayerIndex + 1}`;
         }
         break;
 
       case "forced-deal":
         // First step: Select the target player's property
-        if (
-          setIndex < targetPlayer.properties.length &&
-          cardIndex < targetPlayer.properties[setIndex].cards.length
-        ) {
+        if (setIndex < targetPlayer.properties.length && cardIndex < targetPlayer.properties[setIndex].cards.length) {
           const targetCard = targetPlayer.properties[setIndex].cards[cardIndex];
 
           // Store the selected card info
@@ -620,29 +553,28 @@ export default function GameBoard() {
           if (updatedTargetSet.cards.length === 0) {
             // If set is empty, replace it with a new set
             updatedTargetProperties[targetSetIndex] = {
-              color: ownCard.color || "",
+              colour: ownCard.colour || "",
               cards: [ownCard],
               isComplete: false,
               houses: 0,
               hotels: 0,
-              requiredCards: getRequiredCardsForColor(ownCard.color || ""),
+              requiredCards: getRequiredCardsForColour(ownCard.colour || ""),
             };
           } else {
-            // Add to existing set if colors match
-            if (ownCard.color === updatedTargetSet.color) {
+            // Add to existing set if colours match
+            if (ownCard.colour === updatedTargetSet.colour) {
               updatedTargetSet.cards.push(ownCard);
-              updatedTargetSet.isComplete =
-                updatedTargetSet.cards.length >= updatedTargetSet.requiredCards;
+              updatedTargetSet.isComplete = updatedTargetSet.cards.length >= updatedTargetSet.requiredCards;
               updatedTargetProperties[targetSetIndex] = updatedTargetSet;
             } else {
-              // Create a new set if colors don't match
+              // Create a new set if colours don't match
               updatedTargetProperties.push({
-                color: ownCard.color || "",
+                colour: ownCard.colour || "",
                 cards: [ownCard],
                 isComplete: false,
                 houses: 0,
                 hotels: 0,
-                requiredCards: getRequiredCardsForColor(ownCard.color || ""),
+                requiredCards: getRequiredCardsForColour(ownCard.colour || ""),
               });
             }
           }
@@ -651,30 +583,28 @@ export default function GameBoard() {
           if (updatedCurrentSet.cards.length === 0) {
             // If set is empty, replace it with a new set
             updatedCurrentProperties[setIndex] = {
-              color: targetCard.color || "",
+              colour: targetCard.colour || "",
               cards: [targetCard],
               isComplete: false,
               houses: 0,
               hotels: 0,
-              requiredCards: getRequiredCardsForColor(targetCard.color || ""),
+              requiredCards: getRequiredCardsForColour(targetCard.colour || ""),
             };
           } else {
-            // Add to existing set if colors match
-            if (targetCard.color === updatedCurrentSet.color) {
+            // Add to existing set if colours match
+            if (targetCard.colour === updatedCurrentSet.colour) {
               updatedCurrentSet.cards.push(targetCard);
-              updatedCurrentSet.isComplete =
-                updatedCurrentSet.cards.length >=
-                updatedCurrentSet.requiredCards;
+              updatedCurrentSet.isComplete = updatedCurrentSet.cards.length >= updatedCurrentSet.requiredCards;
               updatedCurrentProperties[setIndex] = updatedCurrentSet;
             } else {
-              // Create a new set if colors don't match
+              // Create a new set if colours don't match
               updatedCurrentProperties.push({
-                color: targetCard.color || "",
+                colour: targetCard.colour || "",
                 cards: [targetCard],
                 isComplete: false,
                 houses: 0,
                 hotels: 0,
-                requiredCards: getRequiredCardsForColor(targetCard.color || ""),
+                requiredCards: getRequiredCardsForColour(targetCard.colour || ""),
               });
             }
           }
@@ -687,9 +617,7 @@ export default function GameBoard() {
           updatedPlayers[targetPlayerIndex] = targetPlayer;
           updatedPlayers[currentPlayerIndex] = currentPlayer;
 
-          message = `Swapped ${ownCard.name} for ${
-            targetCard.name
-          } with Player ${targetPlayerIndex + 1}`;
+          message = `Swapped ${ownCard.name} for ${targetCard.name} with Player ${targetPlayerIndex + 1}`;
 
           // Reset the forced deal state
           setForcedDealTargetCard(null);
@@ -717,11 +645,7 @@ export default function GameBoard() {
       // Update the player in the players array
       updatedPlayers[currentPlayerIndex] = currentPlayer;
 
-      console.log(
-        `Removed ${actionCardInProgress.card.name} from player ${
-          currentPlayerIndex + 1
-        }'s hand`
-      );
+      console.log(`Removed ${actionCardInProgress.card.name} from player ${currentPlayerIndex + 1}'s hand`);
       console.log(`Added ${actionCardInProgress.card.name} to action area`);
     }
 
@@ -756,10 +680,7 @@ export default function GameBoard() {
   const completeEndTurn = () => {
     if (!gameState) return;
 
-    const { nextPlayerIndex, updatedPlayers } = endTurn(
-      gameState.players,
-      gameState.currentPlayerIndex
-    );
+    const { nextPlayerIndex, updatedPlayers } = endTurn(gameState.players, gameState.currentPlayerIndex);
 
     setGameState({
       ...gameState,
@@ -807,17 +728,13 @@ export default function GameBoard() {
     const checkWinner = () => {
       for (const player of gameState.players) {
         // Check if player has 3 complete property sets
-        const completeSets = player.properties.filter(
-          (set) => set.isComplete
-        ).length;
+        const completeSets = player.properties.filter((set) => set.isComplete).length;
         if (completeSets >= 3) {
           setGameState({
             ...gameState,
             isGameOver: true,
             winner: player,
-            message: `Player ${
-              player.id + 1
-            } wins with 3 complete property sets!`,
+            message: `Player ${player.id + 1} wins with 3 complete property sets!`,
           });
           return;
         }
@@ -832,22 +749,13 @@ export default function GameBoard() {
       <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-4">Start New Game</h2>
         <div className="flex gap-4">
-          <button
-            onClick={() => startGame(2)}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
+          <button onClick={() => startGame(2)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
             2 Players
           </button>
-          <button
-            onClick={() => startGame(3)}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
+          <button onClick={() => startGame(3)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
             3 Players
           </button>
-          <button
-            onClick={() => startGame(4)}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
+          <button onClick={() => startGame(4)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
             4 Players
           </button>
         </div>
@@ -878,11 +786,7 @@ export default function GameBoard() {
         hasDrawnCards={gameState.hasDrawnCards}
       />
 
-      {gameState.message && (
-        <div className="bg-blue-100 p-3 rounded-lg mb-4 text-center">
-          {gameState.message}
-        </div>
-      )}
+      {gameState.message && <div className="bg-blue-100 p-3 rounded-lg mb-4 text-center">{gameState.message}</div>}
 
       <div className="flex justify-center items-center gap-6 mb-6">
         <CardDeck
@@ -891,10 +795,7 @@ export default function GameBoard() {
           hasDrawnCards={gameState.hasDrawnCards}
         />
 
-        <ActionArea
-          actionCards={gameState.actionCards}
-          isCurrentPlayersTurn={true}
-        />
+        <ActionArea actionCards={gameState.actionCards} isCurrentPlayersTurn={true} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
@@ -919,10 +820,7 @@ export default function GameBoard() {
       />
 
       {showDiscardModal && (
-        <DiscardModal
-          player={gameState.players[gameState.currentPlayerIndex]}
-          onDiscard={handleDiscard}
-        />
+        <DiscardModal player={gameState.players[gameState.currentPlayerIndex]} onDiscard={handleDiscard} />
       )}
 
       {actionCardInProgress && (
@@ -935,29 +833,26 @@ export default function GameBoard() {
         />
       )}
 
-      {showPropertySelectionModal &&
-        targetPlayerForPropertySelection !== null && (
-          <PropertySelectionModal
-            title={
-              propertySelectionType === "deal-breaker"
-                ? "Select a complete property set to steal"
-                : propertySelectionType === "sly-deal"
-                ? "Select a property card to steal"
-                : "Select a property card to swap"
-            }
-            propertySets={
-              gameState.players[targetPlayerForPropertySelection].properties
-            }
-            onSelect={handlePropertySelection}
-            onCancel={() => {
-              setShowPropertySelectionModal(false);
-              setTargetPlayerForPropertySelection(null);
-              setPropertySelectionType("");
-              setActionCardInProgress(null);
-            }}
-            allowCompleteSet={propertySelectionType === "deal-breaker"}
-          />
-        )}
+      {showPropertySelectionModal && targetPlayerForPropertySelection !== null && (
+        <PropertySelectionModal
+          title={
+            propertySelectionType === "deal-breaker"
+              ? "Select a complete property set to steal"
+              : propertySelectionType === "sly-deal"
+              ? "Select a property card to steal"
+              : "Select a property card to swap"
+          }
+          propertySets={gameState.players[targetPlayerForPropertySelection].properties}
+          onSelect={handlePropertySelection}
+          onCancel={() => {
+            setShowPropertySelectionModal(false);
+            setTargetPlayerForPropertySelection(null);
+            setPropertySelectionType("");
+            setActionCardInProgress(null);
+          }}
+          allowCompleteSet={propertySelectionType === "deal-breaker"}
+        />
+      )}
     </div>
   );
 }

@@ -8,13 +8,10 @@ interface PropertySetProps {
   onClick: () => void;
 }
 
-export default function PropertySet({
-  propertySet,
-  onClick,
-}: PropertySetProps) {
+export default function PropertySet({ propertySet, onClick }: PropertySetProps) {
   // get colour class based on property colour for the border
-  const getColorClass = (color: string): string => {
-    switch (color) {
+  const getColourClass = (colour: string): string => {
+    switch (colour) {
       case "brown":
         return "border-amber-900";
       case "light blue":
@@ -40,32 +37,21 @@ export default function PropertySet({
     }
   };
 
-  const colorClass = getColorClass(propertySet.color);
+  const colourClass = getColourClass(propertySet.colour);
   const isComplete = propertySet.isComplete;
 
   return (
-    <div
-      className={`p-2 rounded-lg border-2 ${
-        isComplete ? "border-yellow-400" : colorClass
-      }`}
-      onClick={onClick}
-    >
+    <div className={`p-2 rounded-lg border-2 ${isComplete ? "border-yellow-400" : colourClass}`} onClick={onClick}>
       <div className="flex flex-col gap-1">
         {propertySet.cards.map((card, index) => (
-          <div
-            key={`property-${index}`}
-            className="relative"
-            style={{ marginTop: index > 0 ? "-80px" : "0" }}
-          >
+          <div key={`property-${index}`} className="relative" style={{ marginTop: index > 0 ? "-80px" : "0" }}>
             <CardComponent card={card} isSmall={true} onClick={() => {}} />
           </div>
         ))}
       </div>
       {isComplete && (
         <div className="mt-2 flex gap-1 justify-center">
-          <div className="bg-yellow-200 text-yellow-800 text-xs px-2 py-1 rounded">
-            Complete!
-          </div>
+          <div className="bg-yellow-200 text-yellow-800 text-xs px-2 py-1 rounded">Complete!</div>
         </div>
       )}
     </div>

@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import type { Card } from "@/lib/types"
-import CardComponent from "@/components/card"
+import type { Card } from "@/lib/types";
+import CardComponent from "@/components/card";
 
 interface CardActionOption {
-  area: string
-  label: string
+  area: string;
+  label: string;
 }
 
 interface CardActionModalProps {
-  card: Card
-  options: CardActionOption[]
-  onAction: (targetArea: string) => void
-  onClose: () => void
+  card: Card;
+  options: CardActionOption[];
+  onAction: (targetArea: string) => void;
+  onClose: () => void;
 }
 
 export default function CardActionModal({ card, options, onAction, onClose }: CardActionModalProps) {
@@ -28,7 +28,7 @@ export default function CardActionModal({ card, options, onAction, onClose }: Ca
           <div>
             <p className="font-semibold">{card.name}</p>
             <p className="text-sm text-gray-600">Value: ${card.value}M</p>
-            {card.color && <p className="text-sm text-gray-600">Color: {card.color}</p>}
+            {card.colour && <p className="text-sm text-gray-600">Colour: {card.colour}</p>}
             {card.type && <p className="text-sm text-gray-600">Type: {card.type}</p>}
           </div>
         </div>
@@ -55,6 +55,5 @@ export default function CardActionModal({ card, options, onAction, onClose }: Ca
         </div>
       </div>
     </div>
-  )
+  );
 }
-
