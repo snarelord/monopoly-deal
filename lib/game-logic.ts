@@ -47,7 +47,11 @@ function shuffleDeck(deck: Card[]): Card[] {
 }
 
 // helper function to determine hwo many cards to draw
-function getCards(handLength: number, defaultCards: number, emptyHandCards: number): number {
+function getCards(
+  handLength: number,
+  defaultCards: number,
+  emptyHandCards: number
+): number {
   return handLength === 0 ? emptyHandCards : defaultCards;
 }
 
@@ -77,17 +81,27 @@ function getNextPlayerIndex(currentPlayerIndex: number, totalPlayers: number) {
 
 export function endTurn(players: Player[], currentPlayerIndex: number) {
   // move to next player
-  const nextPlayerIndex = getNextPlayerIndex(currentPlayerIndex, players.length);
+  const nextPlayerIndex = getNextPlayerIndex(
+    currentPlayerIndex,
+    players.length
+  );
   return { nextPlayerIndex, updatedPlayers: players };
 }
 
-// Check if a property set is complete
+// check if property set is complete
 export function isPropertySetComplete(propertySet: PropertySet): boolean {
+  if (!propertySet) {
+    throw new Error("Invalid property set");
+  }
   return propertySet.cards.length >= propertySet.requiredCards;
 }
 
 // Helper function to get rent from a card based on colour and property count
-function getRentFromCard(card: Card, colour: string, propertyCount: number): number | undefined {
+function getRentFromCard(
+  card: Card,
+  colour: string,
+  propertyCount: number
+): number | undefined {
   if (!card.rent) return undefined;
 
   // Check if the rent is a nested object with colours
@@ -158,7 +172,10 @@ export function calculateRentAmount(propertySet: PropertySet): number {
 
   // First, try to find a regular property card with rent info
   const regularPropertyCard = propertySet.cards.find(
-    (card) => card.type === "property" && card.rent && typeof Object.values(card.rent)[0] === "number"
+    (card) =>
+      card.type === "property" &&
+      card.rent &&
+      typeof Object.values(card.rent)[0] === "number"
   );
 
   if (regularPropertyCard) {
@@ -170,7 +187,9 @@ export function calculateRentAmount(propertySet: PropertySet): number {
     // If no regular property card found, try to find a wildcard with rent info for this colour
     const wildcard = propertySet.cards.find(
       (card) =>
-        card.type === "wildcard" && card.rent && (card.colour === setColour || card.secondaryColour === setColour)
+        card.type === "wildcard" &&
+        card.rent &&
+        (card.colour === setColour || card.secondaryColour === setColour)
     );
 
     if (wildcard) {
@@ -221,12 +240,14 @@ export function playCard(
       updatedSet.cards.push(card);
 
       // Check if set is now complete
-      updatedSet.isComplete = updatedSet.cards.length >= updatedSet.requiredCards;
+      updatedSet.isComplete =
+        updatedSet.cards.length >= updatedSet.requiredCards;
     } else {
       // Create new property set (only for regular properties, not "Any Colour" wildcards)
       const isAnyColourWildcard =
         card.type === "wildcard" &&
-        (card.name.toLowerCase().includes("any colour") || card.name.toLowerCase().includes("any colour"));
+        (card.name.toLowerCase().includes("any colour") ||
+          card.name.toLowerCase().includes("any colour"));
 
       if (!isAnyColourWildcard) {
         player.properties.push({
@@ -290,12 +311,16 @@ export function isValidCardPlacement(card: Card, targetArea: string): boolean {
       // special case for any colour wildcards
       const isAnyColourWildcard =
         card.type === "wildcard" &&
-        (card.name.toLowerCase().includes("any colour") || card.name.toLowerCase().includes("any colour"));
+        (card.name.toLowerCase().includes("any colour") ||
+          card.name.toLowerCase().includes("any colour"));
 
       if (isAnyColourWildcard) {
         // any colour wildcards can only be added to existing property sets, they cannot create their own set
         const setIndex = Number.parseInt(targetArea.split("-")[1]);
-        return !targetArea.endsWith(`-${setIndex}`) || setIndex < Number.POSITIVE_INFINITY; // always true for existing sets
+        return (
+          !targetArea.endsWith(`-${setIndex}`) ||
+          setIndex < Number.POSITIVE_INFINITY
+        ); // always true for existing sets
       }
 
       return true;
@@ -315,6 +340,7 @@ export function discardCards(
   cardIndices: number[],
   deck: Card[]
 ): { updatedPlayer: Player; updatedDeck: Card[] } {
+  // copy player and deck to avoid mutation
   const updatedPlayer = { ...player };
   const updatedDeck = [...deck];
 
@@ -323,10 +349,8 @@ export function discardCards(
 
   // remove cards from hand and add to bottom of the deck
   for (const index of sortedIndices) {
-    if (index >= 0 && index < updatedPlayer.hand.length) {
-      const card = updatedPlayer.hand.splice(index, 1)[0];
-      updatedDeck.unshift(card); // add to bottom of deck
-    }
+    const [card] = updatedPlayer.hand.splice(index, 1);
+    updatedDeck.push(card); // changed from unshift
   }
 
   return {
