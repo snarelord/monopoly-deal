@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PlayerArea from "@/components/player-area";
-import CardDeck from "@/components/card-deck";
-import ActionArea from "@/components/action-area";
-import ActionModal from "@/components/action-modal";
-import PropertySelectionModal from "@/components/property-selection-modal";
+import PlayerArea from "@/components/player-area/player-area";
+import CardDeck from "@/components/card-deck/card-deck";
+import ActionArea from "@/components/action-area/action-area";
+import ActionModal from "@/components/action-modal/action-modal";
+import PropertySelectionModal from "@/components/property-selection-modal/property-selection-modal";
+
 import type { Card, GameState } from "@/lib/types";
 import {
   initialiseGame,
@@ -16,9 +17,9 @@ import {
   getRequiredCardsForColour,
   calculateRentAmount,
 } from "@/lib/game-logic";
-import GameControls from "@/components/game-controls";
-import GameInfo from "@/components/game-info";
-import DiscardModal from "@/components/discard-modal";
+import GameControls from "@/components/game-controls/game-controls";
+import GameInfo from "@/components/game-info/game-info";
+import DiscardModal from "@/components/discard-modal/discard-modal";
 
 export default function GameBoard() {
   const [gameState, setGameState] = useState<GameState | null>(null);

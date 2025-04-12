@@ -1,0 +1,40 @@
+.deckContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardDeck {
+  width: 6rem;
+  height: 9rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cardAvailable {
+  background-color: #3b82f6; /* Tailwind's blue-500 */
+}
+
+.cardAvailable:hover {
+  background-color: #2563eb; /* Tailwind's blue-600 */
+}
+
+.cardDrawn {
+  background-color: #9ca3af; /* Tailwind's gray-400 */
+  cursor: not-allowed;
+}
+
+.cardText {
+  color: white;
+  font-weight: bold;
+}
+
+.cardsRemaining {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}

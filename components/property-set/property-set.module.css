@@ -1,0 +1,79 @@
+.propertySet {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  cursor: pointer;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cardWrapper {
+  position: relative;
+}
+
+.complete {
+  border-color: #fbbf24; /* yellow-400 */
+}
+
+.brown {
+  border-color: #b45309; /* amber-900 */
+}
+
+.lightBlue {
+  border-color: #38bdf8; /* sky-300 */
+}
+
+.pink {
+  border-color: #f472b6; /* pink-400 */
+}
+
+.orange {
+  border-color: #fb923c; /* orange-400 */
+}
+
+.red {
+  border-color: #ef4444; /* red-500 */
+}
+
+.yellow {
+  border-color: #fbbf24; /* yellow-400 */
+}
+
+.green {
+  border-color: #16a34a; /* green-600 */
+}
+
+.darkBlue {
+  border-color: #1e3a8a; /* blue-800 */
+}
+
+.black {
+  border-color: #27272a; /* gray-800 */
+}
+
+.mint {
+  border-color: #34d399; /* emerald-300 */
+}
+
+.default {
+  border-color: #e5e7eb; /* gray-200 */
+}
+
+.completeBadge {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.completeText {
+  background-color: #fef9c3; /* yellow-200 */
+  color: #9c6e00; /* yellow-800 */
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}

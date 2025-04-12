@@ -1,0 +1,29 @@
+.gameInfoWrapper {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.375rem; /* Tailwind's rounded-lg */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-md */
+  margin-bottom: 1.5rem; /* Tailwind's mb-6 */
+}
+
+.gameInfoContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.currentPlayer,
+.cardsPlayed {
+  font-weight: 600; /* Tailwind's font-semibold */
+}
+
+.drawStatus {
+  font-weight: 600; /* Tailwind's font-semibold */
+}
+
+.cardsDrawn {
+  color: #16a34a; /* Tailwind's green-600 */
+}
+
+.drawCardsFirst {
+  color: #ef4444; /* Tailwind's red-600 */
+}
