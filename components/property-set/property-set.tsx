@@ -1,7 +1,8 @@
 "use client";
 
 import type { PropertySet as PropertySetType } from "@/lib/types";
-import CardComponent from "@/components/card";
+import CardComponent from "../card/card";
+import styles from "./property-set.module.css";
 
 interface PropertySetProps {
   propertySet: PropertySetType;
@@ -13,27 +14,27 @@ export default function PropertySet({ propertySet, onClick }: PropertySetProps) 
   const getColourClass = (colour: string): string => {
     switch (colour) {
       case "brown":
-        return "border-amber-900";
+        return styles.brown;
       case "light blue":
-        return "border-sky-300";
+        return styles.lightBlue;
       case "pink":
-        return "border-pink-400";
+        return styles.pink;
       case "orange":
-        return "border-orange-400";
+        return styles.orange;
       case "red":
-        return "border-red-500";
+        return styles.red;
       case "yellow":
-        return "border-yellow-400";
+        return styles.yellow;
       case "green":
-        return "border-green-600";
+        return styles.green;
       case "dark blue":
-        return "border-blue-800";
+        return styles.darkBlue;
       case "black":
-        return "border-gray-800";
+        return styles.black;
       case "mint":
-        return "border-emerald-300";
+        return styles.mint;
       default:
-        return "border-gray-200";
+        return styles.default;
     }
   };
 
@@ -41,17 +42,21 @@ export default function PropertySet({ propertySet, onClick }: PropertySetProps) 
   const isComplete = propertySet.isComplete;
 
   return (
-    <div className={`p-2 rounded-lg border-2 ${isComplete ? "border-yellow-400" : colourClass}`} onClick={onClick}>
-      <div className="flex flex-col gap-1">
+    <div className={`${styles.propertySet} ${isComplete ? styles.complete : colourClass}`} onClick={onClick}>
+      <div className={styles.cardContainer}>
         {propertySet.cards.map((card, index) => (
-          <div key={`property-${index}`} className="relative" style={{ marginTop: index > 0 ? "-80px" : "0" }}>
+          <div
+            key={`property-${index}`}
+            className={styles.cardWrapper}
+            style={{ marginTop: index > 0 ? "-80px" : "0" }}
+          >
             <CardComponent card={card} isSmall={true} onClick={() => {}} />
           </div>
         ))}
       </div>
       {isComplete && (
-        <div className="mt-2 flex gap-1 justify-center">
-          <div className="bg-yellow-200 text-yellow-800 text-xs px-2 py-1 rounded">Complete!</div>
+        <div className={styles.completeBadge}>
+          <div className={styles.completeText}>Complete!</div>
         </div>
       )}
     </div>

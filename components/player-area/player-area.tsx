@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import type { Player, GameState } from "@/lib/types";
-import CardComponent from "@/components/card";
-import PropertySet from "@/components/property-set";
-import CardActionModal from "@/components/card-action-modal";
+import CardComponent from "../card/card";
+import PropertySet from "../property-set/property-set";
+import CardActionModal from "../card-action-modal/card-action-modal";
 import { isValidCardPlacement } from "@/lib/game-logic";
+import styles from "./player-area.module.css";
 
 interface PlayerAreaProps {
   player: Player;
@@ -154,24 +155,23 @@ export default function PlayerArea({
   };
 
   return (
-    <div className={`p-4 rounded-lg ${isCurrentPlayer ? "bg-blue-50 border-2 border-blue-300" : "bg-gray-50"}`}>
-      <div className="flex justify-between items-center mb-4">
+    <div className={`${styles.playerArea} ${isCurrentPlayer ? styles.currentPlayer : styles.otherPlayer}`}>
+      <div className={styles.header}>
         <h2 className="text-xl font-bold">Player {player.id + 1}</h2>
-        {isCurrentPlayer && <span className="px-2 py-1 bg-blue-500 text-white text-sm rounded">Your Turn</span>}
+        {isCurrentPlayer && <span className={styles.turnIndicator}>Your Turn</span>}
       </div>
 
       {/* Bank Area */}
-      <div className="mb-4 p-3 bg-white rounded-lg shadow-sm min-h-[100px]">
-        <div className="flex justify-between items-center mb-2">
+      <div className={styles.bankArea}>
+        <div className={styles.bankHeader}>
           <h3 className="text-lg font-semibold">Bank</h3>
           <span className="font-bold text-green-600">${bankTotal}M</span>
         </div>
-        {/* overflow-x-auto allows horizontal scrolling */}
-        <div className="flex gap-2 overflow-x-auto">
+        <div className={styles.bankCards}>
           {player.bank.map((card, index) => (
             <div
               key={`bank-${index}`}
-              className="w-16 h-24 relative"
+              className={styles.bankCard}
               style={{
                 marginLeft: index > 0 ? "-50px" : "0", // Create overlap by using negative margin
               }}
@@ -188,7 +188,7 @@ export default function PlayerArea({
       </div>
 
       {/* Properties Area */}
-      <div className="mb-4 p-3 bg-white rounded-lg shadow-sm min-h-[150px]">
+      <div className={styles.propertiesArea}>
         <h3 className="text-lg font-semibold mb-2">Properties</h3>
         <div className="flex flex-wrap gap-4">
           {player.properties.map((propertySet, setIndex) => (
@@ -205,15 +205,13 @@ export default function PlayerArea({
 
       {/* Hand Area - Only visible to current player */}
       {isCurrentPlayer && (
-        <div className="p-3 bg-white rounded-lg shadow-sm">
+        <div className={styles.handArea}>
           <h3 className="text-lg font-semibold mb-2">Your Hand ({player.hand.length})</h3>
           <div className="flex flex-wrap gap-2 justify-center">
             {player.hand.map((card, index) => (
               <div
                 key={`hand-${index}`}
-                className={`relative cursor-pointer transition-transform ${
-                  selectedCard === index ? "transform -translate-y-4" : "hover:-translate-y-2"
-                }`}
+                className={`${styles.cardWrapper} ${selectedCard === index ? styles.cardSelected : ""}`}
                 onClick={() => handleCardClick(index)}
               >
                 <CardComponent card={card} onClick={() => {}} isSelected={selectedCard === index} />
@@ -223,7 +221,7 @@ export default function PlayerArea({
         </div>
       )}
       {!isCurrentPlayer && (
-        <div className="p-3 bg-white rounded-lg shadow-sm">
+        <div className={styles.handArea}>
           <h3 className="text-lg font-semibold mb-2">Hand ({player.hand.length} cards)</h3>
           <div className="flex justify-center">
             <div className="w-20 h-28 bg-gray-300 rounded-lg flex items-center justify-center">

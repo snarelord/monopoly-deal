@@ -1,0 +1,31 @@
+.container {
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-height: 150px;
+  min-width: 150px;
+}
+
+.heading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.cardGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.emptyState {
+  color: #9ca3af; /* Tailwind's gray-400 */
+  text-align: center;
+}
+
+.cardWrapper {
+  position: relative;
+}

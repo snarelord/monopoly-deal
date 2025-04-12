@@ -93,9 +93,11 @@ function getRentFromCard(card: Card, colour: string, propertyCount: number): num
   // Check if the rent is a nested object with colours
   if (typeof Object.values(card.rent)[0] === "object") {
     // This is a wildcard with multiple colour rent values
-    const rentByColour = card.rent as {
-      [colour: string]: { [key: number]: number };
-    };
+    const rentByColour = card.rent as
+      | {
+          [key: string]: number;
+        }
+      | { [colour: string]: { [key: number]: number } };
 
     // Use the specified colour's rent values
     if (rentByColour[colour]) {
@@ -105,7 +107,7 @@ function getRentFromCard(card: Card, colour: string, propertyCount: number): num
 
       // Find the appropriate rent key based on property count
       let rentKey = propertyCount;
-      if (!rentByColour[colour][rentKey]) {
+      if (!(rentByColour[colour] as { [key: number]: number })[rentKey]) {
         // If exact count isn't available, find the closest lower value
         for (let i = rentKeys.length - 1; i >= 0; i--) {
           if (rentKeys[i] <= propertyCount) {
@@ -115,7 +117,7 @@ function getRentFromCard(card: Card, colour: string, propertyCount: number): num
         }
       }
 
-      return rentByColour[colour][rentKey];
+      return (rentByColour[colour] as { [key: number]: number })[rentKey];
     }
   } else {
     // This is a regular property card with simple rent values

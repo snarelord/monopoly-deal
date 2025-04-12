@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import type { PropertySet } from "@/lib/types";
-import CardComponent from "@/components/card";
+import CardComponent from "../card/card";
+import styles from "./psm.module.css";
 
 interface PropertySelectionModalProps {
   title: string;
@@ -41,13 +42,13 @@ export default function PropertySelectionModal({
   const modalTitle = title.includes("forced-deal-own") ? "Select one of your properties to swap" : title;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4">{modalTitle}</h2>
+    <div className={styles.overlay}>
+      <div className={styles.modal}>
+        <h2 className={styles.title}>{modalTitle}</h2>
 
-        <div className="mb-4">
-          <p className="font-semibold mb-2">Select a property set:</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className={styles.setSelectSection}>
+          <p className={styles.setSelectTitle}>Select a property set:</p>
+          <div className={styles.setGrid}>
             {propertySets.map((set, setIndex) => {
               // Skip complete sets if not allowed
               if (!allowCompleteSet && set.isComplete) return null;
@@ -55,14 +56,12 @@ export default function PropertySelectionModal({
               return (
                 <div
                   key={setIndex}
-                  className={`p-2 border rounded cursor-pointer ${
-                    selectedSetIndex === setIndex ? "border-blue-500 bg-blue-50" : "border-gray-300"
-                  }`}
+                  className={`${styles.setItem} ${selectedSetIndex === setIndex ? styles.selectedSet : ""}`}
                   onClick={() => handleSetSelect(setIndex)}
                 >
-                  <div className={`h-4 bg-${set.colour.replace(" ", "-")} rounded-t-sm mb-1`}></div>
-                  <div className="text-sm font-medium">{set.colour} Set</div>
-                  <div className="text-xs text-gray-600">
+                  <div className={`${styles.setColor} bg-${set.colour.replace(" ", "-")}`}></div>
+                  <div className={styles.setName}>{set.colour} Set</div>
+                  <div className={styles.setCardCount}>
                     Cards: {set.cards.length}/{set.requiredCards}
                   </div>
                 </div>
@@ -72,15 +71,13 @@ export default function PropertySelectionModal({
         </div>
 
         {selectedSetIndex !== null && (
-          <div className="mb-4">
-            <p className="font-semibold mb-2">Select a card:</p>
-            <div className="flex flex-wrap gap-3">
+          <div className={styles.cardSelectSection}>
+            <p className={styles.cardSelectTitle}>Select a card:</p>
+            <div className={styles.cardGrid}>
               {propertySets[selectedSetIndex].cards.map((card, cardIndex) => (
                 <div
                   key={cardIndex}
-                  className={`cursor-pointer transition-transform ${
-                    selectedCardIndex === cardIndex ? "transform -translate-y-2" : ""
-                  }`}
+                  className={`${styles.cardWrapper} ${selectedCardIndex === cardIndex ? styles.selectedCard : ""}`}
                   onClick={() => handleCardSelect(cardIndex)}
                 >
                   <CardComponent
@@ -95,12 +92,12 @@ export default function PropertySelectionModal({
           </div>
         )}
 
-        <div className="flex justify-end gap-2">
-          <button className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" onClick={onCancel}>
+        <div className={styles.buttonGroup}>
+          <button className={styles.cancelButton} onClick={onCancel}>
             Cancel
           </button>
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className={styles.confirmButton}
             onClick={handleConfirm}
             disabled={selectedSetIndex === null || selectedCardIndex === null}
           >
