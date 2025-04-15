@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import type { Player, GameState } from "@/lib/types";
-import CardComponent from "../card/card";
-import PropertySet from "../property-set/property-set";
-import CardActionModal from "../card-action-modal/card-action-modal";
+import CardComponent from "@/components/card/card";
+import PropertySet from "@/components/property-set/property-set";
+import CardActionModal from "@/components/card-action-modal/card-action-modal";
 import { isValidCardPlacement } from "@/lib/game-logic";
 import styles from "./player-area.module.css";
 
@@ -91,7 +91,8 @@ export default function PlayerArea({
 
     // Handle wildcards
     if (card.type === "wildcard") {
-      const isAnyColourWildcard = card.name.toLowerCase().includes("any colour");
+      const isAnyColourWildcard =
+        card.name.toLowerCase().includes("any colour") || card.name.toLowerCase().includes("any colour");
 
       if (isAnyColourWildcard) {
         // "Any Colour" wildcards can only be added to existing property sets
@@ -106,7 +107,7 @@ export default function PlayerArea({
           }
         });
       } else if (card.colour && card.secondaryColour) {
-        // Two-way wildcards can be added to either color's set
+        // Two-way wildcards can be added to either colour's set
         const primaryColourSetIndex = player.properties.findIndex((set) => set.colour === card.colour);
         const secondaryColourSetIndex = player.properties.findIndex((set) => set.colour === card.secondaryColour);
 
@@ -134,7 +135,7 @@ export default function PlayerArea({
           });
         }
       } else if (card.colour) {
-        // Single color wildcards
+        // Single colour wildcards
         const colourSetIndex = player.properties.findIndex((set) => set.colour === card.colour);
 
         if (colourSetIndex >= 0) {
@@ -155,32 +156,26 @@ export default function PlayerArea({
   };
 
   return (
-    <div className={`${styles.playerArea} ${isCurrentPlayer ? styles.currentPlayer : styles.otherPlayer}`}>
+    <div className={`${styles.container} ${isCurrentPlayer ? styles.currentPlayer : ""}`}>
       <div className={styles.header}>
-        <h2 className="text-xl font-bold">Player {player.id + 1}</h2>
+        <h2 className={styles.playerName}>Player {player.id + 1}</h2>
         {isCurrentPlayer && <span className={styles.turnIndicator}>Your Turn</span>}
       </div>
 
       {/* Bank Area */}
-      <div className={styles.bankArea}>
-        <div className={styles.bankHeader}>
-          <h3 className="text-lg font-semibold">Bank</h3>
-          <span className="font-bold text-green-600">${bankTotal}M</span>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <h3 className={styles.sectionTitle}>Bank</h3>
+          <span className={styles.bankTotal}>${bankTotal}M</span>
         </div>
-        <div className={styles.bankCards}>
+        <div className={styles.cardGrid}>
           {player.bank.map((card, index) => (
-            <div
-              key={`bank-${index}`}
-              className={styles.bankCard}
-              style={{
-                marginLeft: index > 0 ? "-50px" : "0", // Create overlap by using negative margin
-              }}
-            >
+            <div key={`bank-${index}`} className="w-16 h-24 relative">
               <CardComponent card={card} isSmall={true} onClick={() => {}} />
             </div>
           ))}
           {player.bank.length === 0 && (
-            <div className="text-gray-400 text-sm">
+            <div className={styles.emptyMessage}>
               {isCurrentPlayer ? "Click on a card in your hand to add to your bank" : "No money in bank"}
             </div>
           )}
@@ -188,15 +183,15 @@ export default function PlayerArea({
       </div>
 
       {/* Properties Area */}
-      <div className={styles.propertiesArea}>
-        <h3 className="text-lg font-semibold mb-2">Properties</h3>
-        <div className="flex flex-wrap gap-4">
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Properties</h3>
+        <div className={styles.propertyGrid}>
           {player.properties.map((propertySet, setIndex) => (
             <PropertySet key={`property-set-${setIndex}`} propertySet={propertySet} onClick={() => {}} />
           ))}
 
           {player.properties.length === 0 && (
-            <div className="text-gray-400 text-sm">
+            <div className={styles.emptyMessage}>
               {isCurrentPlayer ? "Click on a property card in your hand to add it here" : "No properties"}
             </div>
           )}
@@ -204,14 +199,14 @@ export default function PlayerArea({
       </div>
 
       {/* Hand Area - Only visible to current player */}
-      {isCurrentPlayer && (
-        <div className={styles.handArea}>
-          <h3 className="text-lg font-semibold mb-2">Your Hand ({player.hand.length})</h3>
-          <div className="flex flex-wrap gap-2 justify-center">
+      {isCurrentPlayer ? (
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Your Hand ({player.hand.length})</h3>
+          <div className={styles.handContainer}>
             {player.hand.map((card, index) => (
               <div
                 key={`hand-${index}`}
-                className={`${styles.cardWrapper} ${selectedCard === index ? styles.cardSelected : ""}`}
+                className={`${styles.handCard} ${selectedCard === index ? styles.selectedCard : ""}`}
                 onClick={() => handleCardClick(index)}
               >
                 <CardComponent card={card} onClick={() => {}} isSelected={selectedCard === index} />
@@ -219,13 +214,12 @@ export default function PlayerArea({
             ))}
           </div>
         </div>
-      )}
-      {!isCurrentPlayer && (
-        <div className={styles.handArea}>
-          <h3 className="text-lg font-semibold mb-2">Hand ({player.hand.length} cards)</h3>
-          <div className="flex justify-center">
-            <div className="w-20 h-28 bg-gray-300 rounded-lg flex items-center justify-center">
-              <span className="text-lg font-bold">{player.hand.length}</span>
+      ) : (
+        <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Hand ({player.hand.length} cards)</h3>
+          <div className={styles.opponentHand}>
+            <div className={styles.opponentHandCard}>
+              <span className={styles.opponentHandCount}>{player.hand.length}</span>
             </div>
           </div>
         </div>

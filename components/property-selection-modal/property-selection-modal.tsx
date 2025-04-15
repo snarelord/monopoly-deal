@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { PropertySet } from "@/lib/types";
-import CardComponent from "../card/card";
+import CardComponent from "@/components/card/card";
 import styles from "./psm.module.css";
 
 interface PropertySelectionModalProps {
@@ -46,8 +46,8 @@ export default function PropertySelectionModal({
       <div className={styles.modal}>
         <h2 className={styles.title}>{modalTitle}</h2>
 
-        <div className={styles.setSelectSection}>
-          <p className={styles.setSelectTitle}>Select a property set:</p>
+        <div className={styles.section}>
+          <p className={styles.sectionTitle}>Select a property set:</p>
           <div className={styles.setGrid}>
             {propertySets.map((set, setIndex) => {
               // Skip complete sets if not allowed
@@ -56,12 +56,12 @@ export default function PropertySelectionModal({
               return (
                 <div
                   key={setIndex}
-                  className={`${styles.setItem} ${selectedSetIndex === setIndex ? styles.selectedSet : ""}`}
+                  className={`${styles.setCard} ${selectedSetIndex === setIndex ? styles.setCardSelected : ""}`}
                   onClick={() => handleSetSelect(setIndex)}
                 >
-                  <div className={`${styles.setColor} bg-${set.colour.replace(" ", "-")}`}></div>
+                  <div className={styles.setColourBar} style={{ backgroundColor: getColourHex(set.colour) }}></div>
                   <div className={styles.setName}>{set.colour} Set</div>
-                  <div className={styles.setCardCount}>
+                  <div className={styles.setMeta}>
                     Cards: {set.cards.length}/{set.requiredCards}
                   </div>
                 </div>
@@ -71,13 +71,15 @@ export default function PropertySelectionModal({
         </div>
 
         {selectedSetIndex !== null && (
-          <div className={styles.cardSelectSection}>
-            <p className={styles.cardSelectTitle}>Select a card:</p>
+          <div className={styles.section}>
+            <p className={styles.sectionTitle}>Select a card:</p>
             <div className={styles.cardGrid}>
               {propertySets[selectedSetIndex].cards.map((card, cardIndex) => (
                 <div
                   key={cardIndex}
-                  className={`${styles.cardWrapper} ${selectedCardIndex === cardIndex ? styles.selectedCard : ""}`}
+                  className={`${styles.cardWrapper} ${
+                    selectedCardIndex === cardIndex ? styles.cardWrapperSelected : ""
+                  }`}
                   onClick={() => handleCardSelect(cardIndex)}
                 >
                   <CardComponent
@@ -97,7 +99,9 @@ export default function PropertySelectionModal({
             Cancel
           </button>
           <button
-            className={styles.confirmButton}
+            className={`${styles.confirmButton} ${
+              selectedSetIndex === null || selectedCardIndex === null ? styles.confirmButtonDisabled : ""
+            }`}
             onClick={handleConfirm}
             disabled={selectedSetIndex === null || selectedCardIndex === null}
           >
@@ -107,4 +111,32 @@ export default function PropertySelectionModal({
       </div>
     </div>
   );
+}
+
+// function to get colour hex values
+function getColourHex(colour: string): string {
+  switch (colour.toLowerCase()) {
+    case "brown":
+      return "#92400e";
+    case "light blue":
+      return "#7dd3fc";
+    case "pink":
+      return "#f472b6";
+    case "orange":
+      return "#fb923c";
+    case "red":
+      return "#ef4444";
+    case "yellow":
+      return "#facc15";
+    case "green":
+      return "#16a34a";
+    case "dark blue":
+      return "#1e40af";
+    case "black":
+      return "#1f2937";
+    case "light green":
+      return "#4ade80";
+    default:
+      return "#d1d5db";
+  }
 }
