@@ -8,6 +8,8 @@ import styles from "./discard-modal.module.css";
 interface DiscardModalProps {
   player: Player;
   onDiscard: (cardIndices: number[]) => void;
+  onBack: () => void;
+  cardsPlayed: number;
 }
 
 export default function DiscardModal({ player, onDiscard }: DiscardModalProps) {
@@ -35,6 +37,9 @@ export default function DiscardModal({ player, onDiscard }: DiscardModalProps) {
 
   return (
     <div className={styles.modalOverlay}>
+      {/* <button className={styles.backButton} onClick={onBack}>
+        X
+      </button> */}
       <div className={styles.modalContent}>
         <h2 className={styles.heading}>Discard Cards</h2>
         <p className={styles.cardCount}>

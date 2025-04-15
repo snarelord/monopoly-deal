@@ -18,11 +18,11 @@ interface CardActionModalProps {
 
 export default function CardActionModal({ card, options, onAction, onClose }: CardActionModalProps) {
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <h2 className={styles.title}>Play Card</h2>
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <h2 className={styles.modalTitle}>Play Card</h2>
 
-        <div className={styles.cardDetails}>
+        <div className={styles.cardPreview}>
           <div className={styles.cardImage}>
             <CardComponent card={card} onClick={() => {}} />
           </div>
@@ -34,7 +34,7 @@ export default function CardActionModal({ card, options, onAction, onClose }: Ca
           </div>
         </div>
 
-        <div className={styles.optionSection}>
+        <div className={styles.actionOptions}>
           <p className={styles.optionTitle}>Choose where to play this card:</p>
           <div className={styles.optionList}>
             {options.map((option, index) => (

@@ -24,7 +24,7 @@ export default function ActionArea({ actionCards, isCurrentPlayersTurn }: Action
               key={`action-${index}`}
               className={styles.cardWrapper}
               style={{
-                marginLeft: index > 0 ? "-65px" : "0",
+                marginLeft: index > 0 ? "-70px" : "0",
               }}
             >
               <CardComponent card={card} isSmall={true} onClick={() => {}} />

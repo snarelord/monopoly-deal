@@ -1,0 +1,114 @@
+.container {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #f9fafb;
+}
+
+.currentPlayer {
+  background-color: #eff6ff;
+  border: 2px solid #93c5fd;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.playerName {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.turnIndicator {
+  padding: 0.25rem 0.5rem;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+}
+
+.section {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-height: 100px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.bankTotal {
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.cardGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.emptyMessage {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.propertyGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.handContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.handCard {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.handCard:hover {
+  transform: translateY(-0.5rem);
+}
+
+.selectedCard {
+  transform: translateY(-1rem);
+}
+
+.opponentHand {
+  display: flex;
+  justify-content: center;
+}
+
+.opponentHandCard {
+  width: 5rem;
+  height: 7rem;
+  background-color: #d1d5db;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.opponentHandCount {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
